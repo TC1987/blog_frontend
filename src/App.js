@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Login from './components/Login/Login';
+import Dashboard from './components/Dashboard/Dashboard';
+
+import { user_login } from './reducers/userReducer';
+
+const App = props => {
+	useEffect(() => {
+		let user = window.localStorage.getItem('user');
+
+		if (user) {
+			props.user_login(JSON.parse(user));
+		}
+	}, []);
+
+	return (
+		<div>
+			<h1>Blog World</h1>
+			{ props.user ?
+				<Dashboard></Dashboard>
+				:
+				<Login></Login>
+			}
+		</div>
+	);
+};
+
+const mapStateToProps = state => {
+	return {
+		user: state.user
+	};
+};
+
+const mapDispatchToProps = {
+	user_login
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
