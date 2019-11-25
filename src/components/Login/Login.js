@@ -6,6 +6,7 @@ import useField from '../../hooks/useField';
 
 import { login } from '../../services/login';
 import { user_login } from '../../reducers/userReducer';
+import { setToken } from '../../utils/token';
 
 const Login = props => {
 	const email = useField('text', 'Email');
@@ -21,6 +22,7 @@ const Login = props => {
 				password: password.attributes.value
 			});
 			props.user_login(client.user);
+			setToken(client.token);
 			window.localStorage.setItem('token', client.token);
 			window.localStorage.setItem('user', JSON.stringify(client.user));
 		} catch (err) {

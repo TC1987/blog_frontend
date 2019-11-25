@@ -1,13 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Blog = ({ title, content, author }) => {
+const Blog = ({ id, title, content, author, user }) => {
+	const handleEdit = e => {
+		
+	};
+
+	const handleDelete = e => {
+
+	};
+
 	return (
 		<div>
-			<p>{ title }</p>
-			<p>{ content }</p>
-			<p>{ author }</p>
+			<p>Title: { title }</p>
+			<p>Content: { content }</p>
+			<p>Author: { author.name }</p>
+			{  author.id === user.id ?
+				<>
+					<button onClick={ handleEdit }>Edit</button>
+					<button onClick={ handleDelete }>Delete</button>
+				</>
+				:
+				null
+			}
 		</div>
 	);
 };
 
-export default Blog;
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps)(Blog);
