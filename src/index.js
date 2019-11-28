@@ -7,10 +7,12 @@ import { Provider } from 'react-redux';
 
 import userReducer from './reducers/userReducer';
 import blogsReducer from './reducers/blogReducer';
+import messageReducer from './reducers/messageReducer';
 
 const reducers = combineReducers({
 	user: userReducer,
-	blogs: blogsReducer
+	blogs: blogsReducer,
+	message: messageReducer
 });
 
 const store = createStore(reducers);

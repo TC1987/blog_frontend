@@ -6,7 +6,7 @@ import Blogs from '../Blogs/Blogs';
 const Dashboard = props => {
 	return (
 		<>
-			<h1>Welcome Back { props.user.name }</h1>
+			{ props.message ? <p>{ props.message }</p> : null }
 			<Blogs />
 		</>
 	);
@@ -14,7 +14,7 @@ const Dashboard = props => {
 
 const mapStateToProps = state => {
 	return {
-		user: state.user
+		message: state.message
 	};
 };
 

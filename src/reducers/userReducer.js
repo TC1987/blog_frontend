@@ -5,12 +5,20 @@ export const user_login = user => {
 	};
 };
 
-const userReducer = (state = null, action) => {
+export const user_logout = () => {
+	return {
+		type: 'USER_LOGOUT'
+	}
+}
+
+const userReducer = (user = null, action) => {
 	switch (action.type) {
 		case 'USER_LOGIN':
 			return action.payload;
+		case 'USER_LOGOUT':
+			return null;
 		default:
-			return state;
+			return user;
 	}
 };
 
