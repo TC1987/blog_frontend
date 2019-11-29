@@ -39,9 +39,14 @@ export const blogs_service_update = async blog => {
 
 export const blogs_service_delete = async id => {
 	const url = `${baseUrl}/${id}`;
+	const options = {
+		headers: {
+			Authorization: `Bearer ${window.localStorage.getItem('token')}`
+		}
+	};
 
 	try {
-		const response = await axios.delete(url);
+		const response = await axios.delete(url, options);
 		return response.data;
 	} catch (err) {
 		throw err.message;

@@ -13,8 +13,12 @@ const Blog = props => {
 	};
 
 	const handleDelete = async id => {
-		const deletedBlog = await blogs_service_delete(id);
-		props.blogs_delete(deletedBlog.id);
+		try {
+			const deletedBlog = await blogs_service_delete(id);
+			props.blogs_delete(deletedBlog.id);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const likeBlog = async blog => {

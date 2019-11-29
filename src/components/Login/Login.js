@@ -22,7 +22,7 @@ const Login = props => {
 				password: password.attributes.value
 			});
 			props.user_login(client.user);
-			setToken(client.token);
+			setToken(client.token); // This isn't doing anything right now.
 			window.localStorage.setItem('token', client.token);
 			window.localStorage.setItem('user', JSON.stringify(client.user));
 		} catch (err) {
