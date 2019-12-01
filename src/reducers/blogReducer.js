@@ -33,8 +33,15 @@ const blogReducer = (blogs = [], action) => {
 		case 'BLOGS_ADD':
 			return [...blogs, action.payload];
 		case 'BLOGS_UPDATE':
-			const index = blogs.findIndex(blog => blog.id === action.payload.id);
-			return blogs.slice(0, index).concat(action.payload).concat(blogs.slice(index + 1));
+			console.log(action.payload);
+			const index = blogs.findIndex(blog => {
+				console.log(blog.id, action.payload.id);
+				return blog.id === action.payload.id
+			});
+			console.log(index);
+			const newState = blogs.slice(0, index).concat(action.payload).concat(blogs.slice(index + 1));
+			console.log(newState);
+			return newState;
 		case 'BLOGS_DELETE':
 			return blogs.filter(blog => blog.id !== action.id);
 		default:

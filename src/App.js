@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, withRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, withRouter, Redirect, Switch } from 'react-router-dom';
 
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import NotFound from './components/NotFound/NotFound';
 import Users from './components/Users/Users';
 import User from './components/User/User';
+import Blog from './components/Blog/Blog';
 
 import { user_login } from './reducers/userReducer';
+import { blogs_init } from './reducers/blogReducer';
+
+import { blogs_getAll } from './services/blogs';
 
 import NavMenu from './components/NavMenu/NavMenu';
 import LoggedInUser from './components/LoggedInUser/LoggedInUser';
@@ -24,6 +28,11 @@ const App = props => {
 		if (user) {
 			props.user_login(JSON.parse(user));
 		}
+
+		blogs_getAll().then(blogs => {
+			console.log(blogs);
+			props.blogs_init(blogs);
+		});
 	}, []);
 
 	return (
@@ -34,7 +43,9 @@ const App = props => {
 			<Switch>
 				<Route exact path='/' component={ props.user ? Dashboard : Login } />
 				<Route exact path='/users' component={ props.user ? Users : Login } />
+				<Route exact path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
 				<Route path='/users/:id' component={ props.user ? User : Login } />
+				<Route path='/blogs/:id' component={ props.user ? Blog : Login } />
 				<Route component={ NotFound } />
 			</Switch>
 		
@@ -49,7 +60,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-	user_login
+	user_login,
+	blogs_init
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

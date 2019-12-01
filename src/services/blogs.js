@@ -11,6 +11,15 @@ export const blogs_getAll = async () => {
 	}
 };
 
+export const blogs_service_getOne = async id => {
+	try {
+		const response = await axios.get(`${baseUrl}/${id}`);
+		return response.data;
+	} catch (err) {
+		throw err.message;
+	}
+};
+
 export const blogs_create = async blog => {
 	const options = {
 		headers: {
