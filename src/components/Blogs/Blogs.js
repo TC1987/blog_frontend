@@ -46,7 +46,7 @@ const Blogs = props => {
 
 
 			props.blogs_add(createdBlog);
-			props.message_update('hello');
+			props.message_update(`New Blog Created: ${titleValue}`);
 			setTimeout(() => props.message_update(null), 3000);
 		} catch (err) {
 			console.log(err);

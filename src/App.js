@@ -9,6 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import Users from './components/Users/Users';
 import User from './components/User/User';
 import Blog from './components/Blog/Blog';
+import SingleBlog from './components/SingleBlog/SingleBlog';
 
 import { user_login } from './reducers/userReducer';
 import { blogs_init } from './reducers/blogReducer';
@@ -30,7 +31,6 @@ const App = props => {
 		}
 
 		blogs_getAll().then(blogs => {
-			console.log(blogs);
 			props.blogs_init(blogs);
 		});
 	}, []);
@@ -45,7 +45,7 @@ const App = props => {
 				<Route exact path='/users' component={ props.user ? Users : Login } />
 				<Route exact path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
 				<Route path='/users/:id' component={ props.user ? User : Login } />
-				<Route path='/blogs/:id' component={ props.user ? Blog : Login } />
+				<Route path='/blogs/:id' component={ props.user ? SingleBlog : Login } />
 				<Route component={ NotFound } />
 			</Switch>
 		
