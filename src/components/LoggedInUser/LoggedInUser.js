@@ -1,9 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import Button from '../Button/Button';
 
 import { user_logout } from '../../reducers/userReducer';
+
+const Wrapper = styled.div`
+	display: flex;
+	align-items: center;
+`
+
+const ProfilePic = styled.div`
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: red;
+	margin-left: 3rem;
+`
+
+const Username = styled.span`
+	margin-left: 1rem;
+`
 
 const LoggedInUser = props => {
 	const logout = () => {
@@ -13,10 +31,11 @@ const LoggedInUser = props => {
 	};
 
 	return props.user ?
-		<div>
-			<h1>Logged In User: { props.user.name }</h1>
+		<Wrapper>
+			<ProfilePic></ProfilePic>
+			<Username>{ props.user.name }</Username>
 			<Button label="Logout" onClick={ logout } />
-		</div>
+		</Wrapper>
 		:
 		null;
 };

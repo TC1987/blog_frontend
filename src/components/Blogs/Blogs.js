@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import { blogs_getAll, blogs_create } from '../../services/blogs';
 
@@ -9,11 +10,13 @@ import { message_update } from '../../reducers/messageReducer';
 import useField from '../../hooks/useField';
 
 import Blog from '../Blog/Blog';
+import BlogList from '../BlogList/BlogList';
 import Toggler from '../Toggler/Toggler';
 
 const Blogs = props => {
 	const title = useField('text', 'Title');
 	const content = useField('textarea', 'Content');
+	const tags = useField('text', 'Tags');
 
 	useEffect(() => {
 		blogs_getAll().then(blogs => {
@@ -26,15 +29,18 @@ const Blogs = props => {
 
 		const titleValue = title.attributes.value;
 		const contentValue = content.attributes.value;
+		const tagsValue = tags.attributes.value;
 
 		const newBlog = {
 			title: titleValue,
 			content: contentValue,
+			tags: tagsValue,
 			author: props.user.id
 		};
 
 		title.reset();
 		content.reset();
+		tags.reset();
 
 		try {
 			const createdBlog = await blogs_create(newBlog);
@@ -53,26 +59,17 @@ const Blogs = props => {
 		}
 	};
 
-	const blogList = () => {
-		return props.blogs.map(blog => (
-			<li key={ blog.id }>
-				<Blog blog={ blog } />
-			</li>
-		));
-	};
-
 	return (
 		<>
 			<Toggler buttonLabel="Create New Blog">
 				<form onSubmit={ handleSubmit }>
 					<input { ...title.attributes }></input>
 					<input { ...content.attributes }></input>
+					<input { ...tags.attributes }></input>
 					<input type="submit" value="Create"></input>
 				</form>
 			</Toggler>
-			<ul>
-				{ blogList() }
-			</ul>
+			<BlogList blogs={ props.blogs } />
 		</>
 	);
 };
