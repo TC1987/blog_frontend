@@ -12,6 +12,7 @@ import User from './components/User/User';
 import Blog from './components/Blog/Blog';
 import SingleBlog from './components/SingleBlog/SingleBlog';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 import { user_login } from './reducers/userReducer';
 import { blogs_init } from './reducers/blogReducer';
@@ -40,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-	max-width: 100rem;
+	max-width: 70vw;
 	margin: 0 auto;
 	font-size: 1.6rem;
 `;
@@ -67,6 +68,7 @@ const App = props => {
 			<Container>
 				<BrowserRouter>
 					<Header />
+					<NavMenu />
 					<Switch>
 						<Route exact path='/' component={ Dashboard } />
 						<Route exact path='/users' component={ props.user ? Users : Login } />
@@ -75,6 +77,7 @@ const App = props => {
 						<Route path='/blogs/:id' component={ props.user ? SingleBlog : Login } />
 						<Route component={ NotFound } />
 					</Switch>
+					<Footer />
 				</BrowserRouter>
 			</Container>
 		</React.Fragment>

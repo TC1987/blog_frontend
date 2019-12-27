@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import NavMenu from '../NavMenu/NavMenu';
 import LoggedInUser from '../LoggedInUser/LoggedInUser';
@@ -11,9 +12,9 @@ const Wrapper = styled.header`
 	border-bottom: 1px solid #333;
 	padding: 3rem 0;
 
-	& > * {
-		&:not(:first-child) {
-			margin-left: 2rem;
+	& * {
+		&:not(:last-child) {
+			margin-right: 1rem;
 		}
 	}
 `
@@ -28,8 +29,9 @@ const HeaderRight = styled.div`
 	align-items: center;
 `
 
-
-const Name = styled.h1`
+const Name = styled.span`
+	font-size: 3rem;
+	font-weight: 700;
 	text-transform: uppercase;
 `
 
@@ -43,21 +45,25 @@ const Logo = styled.div`
 	width: 50px;
 	height: 50px;
 	background-color: red;
-	margin-right: 1rem;
 `
 
-const Header = () => (
+const Header = props => (
 	<Wrapper>
 		<HeaderLeft>
 			<Logo />
 			<Name>Schmedium</Name>
 		</HeaderLeft>
 		<SearchBox></SearchBox>
-		<HeaderRight>
-			<NavMenu />
+		{ props.user && <HeaderRight>
 			<LoggedInUser />
-		</HeaderRight>
+		</HeaderRight> }
 	</Wrapper>
 )
 
-export default Header;
+const mapStateToProps = state => {
+	return {
+		user: state.user
+	}
+}
+
+export default connect(mapStateToProps)(Header);

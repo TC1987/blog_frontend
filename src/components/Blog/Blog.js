@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 55rem;
+	height: 44rem;
 `
 
 const TextWrapper = styled.div`
@@ -22,27 +22,28 @@ const TextWrapper = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	flex: 1;
+	margin-top: 1rem;
 `
 
 const Text = styled.span`
-	font-size: ${ props => props.fontSize ? props.fontSize : '1rem' };
 	text-decoration: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `
 
 const Image = styled.div`
-	min-height: 300px;
+	min-height: 200px;
 	background-color: black;
 	background-image: url();
 `
 
 const ButtonsWrapper = styled.div`
 	display: flex;
-	flex-direction: column;
+	justify-content: space-evenly;
 
 	& > * {
-		width: 100%;
 		background-color: #ccc;
-		text-align: center;
 		border: 1px solid black;
 
 		&:hover {
@@ -52,9 +53,16 @@ const ButtonsWrapper = styled.div`
 `
 
 const ContentWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	& > * {
+		margin: .25rem 0;
+	}
 `
 
-const Content = styled.p``;
+const Content = styled.span`
+`;
 
 const Author = styled.span`
 	font-size: 1.2rem;
@@ -65,6 +73,11 @@ const ReadTime = styled.span`
 	font-size: 1rem;
 	text-transform: uppercase;
 `;
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	font-size: 2rem;
+`
 
 const Blog = props => {
 	const { id, title, content, author, likes, tags, readTime, updatedAt } = props.blog;
@@ -98,19 +111,16 @@ const Blog = props => {
 			<Image></Image>
 			<TextWrapper>
 				<ContentWrapper>
-					<Text fontSize="3rem">
-						<Link to={ `/blogs/${id}` }>{ title }</Link>
+					<Text>
+						<StyledLink to={ `/blogs/${id}` }>{ title }</StyledLink>
+						<ReadTime>{ readTime } read</ReadTime>
 					</Text>
 					<Author>{ author.name }</Author>
-					<ReadTime>{ readTime } mins read</ReadTime>
 					<Content>{ content }</Content>
-					<p>{ tags }</p>
-					<p>{ updatedAt }</p>
-					<p>Likes: { likes }</p>
 				</ContentWrapper>
 				<ButtonsWrapper>
-					<div onClick={ () => likeBlog(props.blog) }>Like</div>
-					{  author.id === user.id ?
+					<div onClick={ () => likeBlog(props.blog) }>{ likes } Like</div>
+					{  user && author.id === user.id ?
 						<>
 							<div onClick={ () => handleEdit(id) }>Edit</div>
 							<div onClick={ () => handleDelete(id) }>Delete</div>
