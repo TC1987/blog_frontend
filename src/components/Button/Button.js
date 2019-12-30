@@ -7,6 +7,7 @@ const StyledButton = styled.button`
 	font-weight: 700;
 	text-transform: uppercase;
 	background-color: #ccc;
+	align-self: stretch;
 `
 
 const Button = ({ label, onClick }) => {

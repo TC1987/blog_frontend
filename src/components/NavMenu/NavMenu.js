@@ -8,23 +8,27 @@ import Login from '../Login/Login';
 
 import { user_logout } from '../../reducers/userReducer';
 
-const StyledList = styled.ul`
-	display: flex;
-	list-style: none;
-`
-
 const StyledNav = styled.nav`
 	display: flex;
-	justify-content: space-between;
 	height: 40px;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid black;
 `
 
-const NavList = styled(StyledList)``
+const NavLeft = styled.div`
+`
 
-const ListItem = styled.li`
-	&:not(:last-child) {
-		margin-right: 2rem;
-	}
+const NavRight = styled.div`
+`
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 1.2rem;
+	background-color: red;
+	padding: 1rem 2rem;
 `
 
 const NavMenu = props => {
@@ -36,13 +40,15 @@ const NavMenu = props => {
 
 	return (
 		<StyledNav>
-			<NavList>
-				<ListItem><Link to='/'>New Blog</Link></ListItem>
-				<ListItem><Link to='/'>All Blogs</Link></ListItem>
-				<ListItem><Link to='/users'>All Users</Link></ListItem>
-			</NavList>
-			{ !props.user && <Login />}
-			{ props.user && <Button label="Logout" onClick={ logout } /> }
+			<NavLeft>
+				<StyledLink to='/blogs/new'>New Blog</StyledLink>
+				<StyledLink to='/'>All Blogs</StyledLink>
+				<StyledLink to='/users'>All Users</StyledLink>
+			</NavLeft>
+			<NavRight>
+				{ !props.user && <Login />}
+				{ props.user && <Button label="Logout" onClick={ logout } /> }
+			</NavRight>
 		</StyledNav>
 	);
 };

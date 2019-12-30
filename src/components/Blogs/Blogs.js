@@ -61,14 +61,14 @@ const Blogs = props => {
 
 	return (
 		<>
-			<Toggler buttonLabel="Create New Blog">
+			{/* <Toggler buttonLabel="Create New Blog">
 				<form onSubmit={ handleSubmit }>
 					<input { ...title.attributes }></input>
 					<input { ...content.attributes }></input>
 					<input { ...tags.attributes }></input>
 					<input type="submit" value="Create"></input>
 				</form>
-			</Toggler>
+			</Toggler> */}
 			<BlogList blogs={ props.blogs } />
 		</>
 	);

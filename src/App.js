@@ -13,6 +13,7 @@ import Blog from './components/Blog/Blog';
 import SingleBlog from './components/SingleBlog/SingleBlog';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import NewBlog from './components/NewBlog/NewBlog';
 
 import { user_login } from './reducers/userReducer';
 import { blogs_init } from './reducers/blogReducer';
@@ -71,8 +72,9 @@ const App = props => {
 					<NavMenu />
 					<Switch>
 						<Route exact path='/' component={ Dashboard } />
-						<Route exact path='/users' component={ props.user ? Users : Login } />
-						<Route exact path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
+						<Route path='/blogs/new' component={ NewBlog } />
+						<Route path='/users' component={ props.user ? Users : Login } />
+						<Route path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
 						<Route path='/users/:id' component={ props.user ? User : Login } />
 						<Route path='/blogs/:id' component={ props.user ? SingleBlog : Login } />
 						<Route component={ NotFound } />
