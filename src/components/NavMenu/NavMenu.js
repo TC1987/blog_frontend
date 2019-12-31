@@ -5,6 +5,7 @@ const NavMenu = () => {
 	return (
 		<nav>
 			<ul>
+				<li><Link to='/blogs/new'>New Blog</Link></li>
 				<li><Link to='/'>Blogs</Link></li>
 				<li><Link to='/users'>Users</Link></li>
 			</ul>

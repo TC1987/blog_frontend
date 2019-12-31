@@ -10,6 +10,7 @@ import Users from './components/Users/Users';
 import User from './components/User/User';
 import Blog from './components/Blog/Blog';
 import SingleBlog from './components/SingleBlog/SingleBlog';
+import NewBlog from './components/Blog/NewBlog';
 
 import { user_login } from './reducers/userReducer';
 import { blogs_init } from './reducers/blogReducer';
@@ -38,12 +39,13 @@ const App = props => {
 	return (
 		<BrowserRouter>
 			<h1>Blog World</h1>
-			<NavMenu />
 			<LoggedInUser />
+			<NavMenu />
 			<Switch>
 				<Route exact path='/' component={ props.user ? Dashboard : Login } />
 				<Route exact path='/users' component={ props.user ? Users : Login } />
 				<Route exact path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
+				<Route path='/blogs/new' component={ NewBlog } />
 				<Route path='/users/:id' component={ props.user ? User : Login } />
 				<Route path='/blogs/:id' component={ props.user ? SingleBlog : Login } />
 				<Route component={ NotFound } />
