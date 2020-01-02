@@ -31,7 +31,7 @@ export const blogs_create = async blog => {
 		const response = await axios.post(baseUrl, blog, options);
 		return response.data;
 	} catch (err) {
-		throw err.message;
+		throw err.response.data.error;
 	}
 };
 

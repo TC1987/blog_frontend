@@ -8,6 +8,14 @@ import { message_update } from '../../reducers/messageReducer';
 
 import Blog from '../Blog/Blog';
 
+const blogList = blogs => {
+	return blogs.map(blog => (
+		<li key={ blog.id }>
+			<Blog blog={ blog } />
+		</li>
+	));
+};
+
 const Blogs = props => {
 	useEffect(() => {
 		blogs_getAll().then(blogs => {
@@ -15,19 +23,9 @@ const Blogs = props => {
 		});
 	}, []);
 
-
-
-	const blogList = () => {
-		return props.blogs.map(blog => (
-			<li key={ blog.id }>
-				<Blog blog={ blog } />
-			</li>
-		));
-	};
-
 	return (
 		<ul>
-			{ blogList() }
+			{ blogList(props.blogs) }
 		</ul>
 	);
 };

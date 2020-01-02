@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const NavMenu = () => {
+const NavMenu = props => {
 	return (
 		<nav>
 			<ul>
-				<li><Link to='/blogs/new'>New Blog</Link></li>
+				{ props.user ? <li><Link to='/blogs/new'>New Blog</Link></li> : null }
 				<li><Link to='/'>Blogs</Link></li>
 				<li><Link to='/users'>Users</Link></li>
 			</ul>
@@ -13,4 +14,10 @@ const NavMenu = () => {
 	);
 };
 
-export default NavMenu;
+const mapStateToDispatch = state => {
+	return {
+		user: state.user
+	}
+}
+
+export default connect(mapStateToDispatch)(NavMenu);

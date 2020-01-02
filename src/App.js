@@ -36,21 +36,28 @@ const App = props => {
 		});
 	}, []);
 
+	//
+	//
+	// GREAT SUGGESTION FOR NAMING AND ORGANIZING FILES
+	// Depending on size and complexity, I'd either put all the components in the same file or create a `tab` directory with `index.js` doing all the exports and `list.js`, `list-item.js`, and `panel.js` containing the subcomponent src. What do you think you'll do?
+	//
+	//
+	
 	return (
 		<BrowserRouter>
 			<h1>Blog World</h1>
 			<LoggedInUser />
 			<NavMenu />
 			<Switch>
-				<Route exact path='/' component={ props.user ? Dashboard : Login } />
-				<Route exact path='/users' component={ props.user ? Users : Login } />
-				<Route exact path='/blogs' component={ () => props.user ? <Dashboard /> : <Redirect to='/' /> } />
-				<Route path='/blogs/new' component={ NewBlog } />
-				<Route path='/users/:id' component={ props.user ? User : Login } />
-				<Route path='/blogs/:id' component={ props.user ? SingleBlog : Login } />
+				<Route exact path='/' component={ Dashboard } />
+				<Route exact path='/users' component={ Users } />
+				<Route exact path='/blogs' component={ Dashboard } />
+				<Route path='/login' render={ () => props.user ? <Redirect to='/' /> : <Login /> } />
+				<Route path='/blogs/new' render={ () => props.user ? <NewBlog /> : <Redirect to='/' /> } />
+				<Route path='/users/:id' component={ User } />
+				<Route path='/blogs/:id' component={ SingleBlog } />
 				<Route component={ NotFound } />
 			</Switch>
-		
 		</BrowserRouter>
 	);
 };

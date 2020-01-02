@@ -12,7 +12,13 @@ const SingleBlog = props => {
 
 	useEffect(() => {
 		blogs_service_getOne(props.match.params.id)
-			.then(blog => setBlog(blog));
+			.then(blog => {
+				setBlog(blog);
+				blogs_service_update({
+					...blog,
+					views: blog.views + 1
+				}).then(blog => console.log(blog.views));
+			});
 	}, []);
 
 	const handleEdit = id => {
@@ -38,14 +44,19 @@ const SingleBlog = props => {
 		setBlog(updatedBlog);
 	}; 
 
+	const subscribe = (authorId) => {
+		console.log(`Subscribing to ${authorId}`);
+	};
+
 	return blog ?
 		<div>
 			<p>Title: { blog.title }</p>
 			<p>Content: { blog.content }</p>
 			<p>Author: { blog.author.name }</p>
+			{ user && user.id !== blog.author.id ? <p onClick={ () => subscribe(blog, blog.author.id) }>Subscribe To { blog.author.name }</p> : null }
 			<p>Likes: { blog.likes }</p>
 			<button onClick={ () => likeBlog(blog) }>Like</button>
-			{  blog.author.id === user.id ?
+			{ user && blog.author.id === user.id ?
 				<>
 					<button onClick={ () => handleEdit(blog.id) }>Edit</button>
 					<button onClick={ () => handleDelete(blog.id) }>Delete</button>

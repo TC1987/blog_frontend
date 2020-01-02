@@ -6,7 +6,7 @@ import { getComments, addComment } from '../../services/comments';
 
 const Comment = props => {
 	const [comments, setComments] = useState([]);
-	const comment = useField('text', 'Comment');
+	const comment = useField(null, 'Comment');
 	const name = useField('text', 'Name');
 
 	useEffect(() => {
@@ -46,7 +46,7 @@ const Comment = props => {
 	return (
 		<>
 			<form onSubmit={ handleSubmit }>
-				<input { ...comment.attributes} />
+				<textarea { ...comment.attributes} />
 				<input { ...name.attributes} />
 				<input type="submit" value="Add Comment" />
 			</form>

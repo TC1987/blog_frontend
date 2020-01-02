@@ -30,7 +30,7 @@ const Blog = props => {
 
 		updatedBlog = await blogs_service_update(updatedBlog);
 		props.blogs_update(updatedBlog);
-	}; 
+	};
 
 	return (
 		<div>
@@ -39,7 +39,7 @@ const Blog = props => {
 			<p>Author: { author.name }</p>
 			<p>Likes: { likes }</p>
 			<button onClick={ () => likeBlog(props.blog) }>Like</button>
-			{  author.id === user.id ?
+			{ user && author.id === user.id ?
 				<>
 					<button onClick={ () => handleEdit(id) }>Edit</button>
 					<button onClick={ () => handleDelete(id) }>Delete</button>
