@@ -11,6 +11,7 @@ import User from './components/User/User';
 import Blog from './components/Blog/Blog';
 import SingleBlog from './components/SingleBlog/SingleBlog';
 import NewBlog from './components/Blog/NewBlog';
+import Register from './components/Register/Register';
 
 import { user_login } from './reducers/userReducer';
 import { blogs_init } from './reducers/blogReducer';
@@ -52,6 +53,7 @@ const App = props => {
 				<Route exact path='/' component={ Dashboard } />
 				<Route exact path='/users' component={ Users } />
 				<Route exact path='/blogs' component={ Dashboard } />
+				<Route exact path='/register' component={ Register } />
 				<Route path='/login' render={ () => props.user ? <Redirect to='/' /> : <Login /> } />
 				<Route path='/blogs/new' render={ () => props.user ? <NewBlog /> : <Redirect to='/' /> } />
 				<Route path='/users/:id' component={ User } />

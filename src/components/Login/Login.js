@@ -11,20 +11,19 @@ import { setToken } from '../../utils/token';
 const Login = props => {
 	const email = useField('text', 'Email');
 	const password = useField('password', 'Password');
-	let client;
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 
 		try {
-			client = await login({
+			const { user, token } = await login({
 				email: email.attributes.value,
 				password: password.attributes.value
 			});
-			props.user_login(client.user);
-			setToken(client.token); // This isn't doing anything right now.
-			window.localStorage.setItem('token', client.token);
-			window.localStorage.setItem('user', JSON.stringify(client.user));
+			props.user_login(user);
+			setToken(token); // This isn't doing anything right now.
+			window.localStorage.setItem('token', token);
+			window.localStorage.setItem('user', JSON.stringify(user));
 		} catch (err) {
 			console.log(err);
 			email.reset();
@@ -34,13 +33,11 @@ const Login = props => {
 
 	return (
 		<div>
-			<Toggler buttonLabel="Login">
-				<form onSubmit={ handleSubmit }>
-					<input { ...email.attributes }></input>
-					<input { ...password.attributes }></input>
-					<input type="submit" value="Login"></input>
-				</form>
-			</Toggler>
+			<form onSubmit={ handleSubmit }>
+				<input { ...email.attributes }></input>
+				<input { ...password.attributes }></input>
+				<input type="submit" value="Login"></input>
+			</form>
 		</div>
 	);
 };

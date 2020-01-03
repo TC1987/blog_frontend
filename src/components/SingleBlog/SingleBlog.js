@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { blogs_service_getOne, blogs_service_update, blogs_service_delete } from '../../services/blogs';
+import { users_update } from '../../services/users';
+
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
+import { user_update } from '../../reducers/userReducer';
 
 import Comments from '../Comments/Comments';
 
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
-	const { user } = props;
+	const { user, user_update } = props;
 
 	useEffect(() => {
 		blogs_service_getOne(props.match.params.id)
@@ -17,7 +20,7 @@ const SingleBlog = props => {
 				blogs_service_update({
 					...blog,
 					views: blog.views + 1
-				}).then(blog => console.log(blog.views));
+				});
 			});
 	}, []);
 
@@ -42,18 +45,89 @@ const SingleBlog = props => {
 
 		updatedBlog = await blogs_service_update(updatedBlog);
 		setBlog(updatedBlog);
-	}; 
-
-	const subscribe = (authorId) => {
-		console.log(`Subscribing to ${authorId}`);
 	};
+
+	const updateUserProperty = async updateObject => {
+		const updatedUser = await users_update(updateObject);
+		user_update(updatedUser);
+		window.localStorage.setItem('user', JSON.stringify(updatedUser));
+		console.log(updatedUser);
+	}
+
+	const { addUser, removeUser, addBlog, removeBlog } = {
+		addUser: userId => ({
+			op: '$push',
+			field: 'followedUsers',
+			value: userId
+		}),
+		removeUser: userId => ({
+			op: '$pull',
+			field: 'followedUsers',
+			value: userId
+		}),
+		addBlog: blogId => ({
+			op: '$push',
+			field: 'savedBlogs',
+			value: blogId
+		}),
+		removeBlog: blogId => ({
+			op: '$pull',
+			field: 'savedBlogs',
+			value: blogId
+		})
+	}
+
+	const displayFollow = userId => {
+		if (!user) {
+			return;
+		}
+
+		const authorIndex = user.followedUsers.findIndex(id => id === userId);
+
+		if (authorIndex === -1) {
+			return (
+				<button onClick={ () => updateUserProperty(addUser(userId)) }>
+					Follow { blog.author.name }
+				</button>
+			)
+		}
+		
+		return (
+			<button onClick={ () => updateUserProperty(removeUser(userId)) }>
+				Unfollow
+			</button>
+		)
+	}
+
+	const displaySave = (blogId) => {
+		if (!user) {
+			return;
+		}
+
+		const blogIndex = user.savedBlogs.findIndex(id => id === blogId);
+
+		if (blogIndex === -1) {
+			return (
+				<button onClick={ () => updateUserProperty(addBlog(blogId)) }>
+					Save
+				</button>
+			)
+		}
+
+		return (
+			<button onClick={ () => updateUserProperty(removeBlog(blogId)) }>
+				Unsave
+			</button>
+		)
+	}
 
 	return blog ?
 		<div>
 			<p>Title: { blog.title }</p>
 			<p>Content: { blog.content }</p>
 			<p>Author: { blog.author.name }</p>
-			{ user && user.id !== blog.author.id ? <p onClick={ () => subscribe(blog, blog.author.id) }>Subscribe To { blog.author.name }</p> : null }
+			{ displayFollow(blog.author.id) }
+			{ displaySave(blog.id) }
 			<p>Likes: { blog.likes }</p>
 			<button onClick={ () => likeBlog(blog) }>Like</button>
 			{ user && blog.author.id === user.id ?
@@ -79,7 +153,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
 	blogs_update,
-	blogs_delete
+	blogs_delete,
+	user_update
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleBlog);

@@ -9,6 +9,8 @@ const NavMenu = props => {
 				{ props.user ? <li><Link to='/blogs/new'>New Blog</Link></li> : null }
 				<li><Link to='/'>Blogs</Link></li>
 				<li><Link to='/users'>Users</Link></li>
+				<li><Link to='/login'>Login</Link></li>
+				<li><Link to='/register'>Register</Link></li>
 			</ul>
 		</nav>
 	);
