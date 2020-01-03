@@ -1,20 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Button from '../Button/Button';
 
 import { user_logout } from '../../reducers/userReducer';
 
-const LoggedInUser = props => {
+const LoggedInUser = ({ user, user_logout }) => {
 	const logout = () => {
 		window.localStorage.removeItem('user');
 		window.localStorage.removeItem('token');
-		props.user_logout();
+		user_logout();
 	};
 
-	return props.user ?
+	return user ?
 		<div>
-			<h1>Logged In User: { props.user.name }</h1>
+			<h1>Logged In User: <Link to={ `/users/${user.id}` }>{ user.name }</Link></h1>
 			<Button label="Logout" onClick={ logout } />
 		</div>
 		:

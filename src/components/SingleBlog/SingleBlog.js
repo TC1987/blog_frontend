@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { blogs_service_getOne, blogs_service_update, blogs_service_delete } from '../../services/blogs';
 import { users_update } from '../../services/users';
@@ -11,6 +12,7 @@ import Comments from '../Comments/Comments';
 
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
+	const [edit, setEdit] = useState(false);
 	const { user, user_update } = props;
 
 	useEffect(() => {
@@ -125,11 +127,12 @@ const SingleBlog = props => {
 		<div>
 			<p>Title: { blog.title }</p>
 			<p>Content: { blog.content }</p>
-			<p>Author: { blog.author.name }</p>
+			<Link to={ `/users/${blog.author.id}` }>Author: { blog.author.name }</Link>
 			{ displayFollow(blog.author.id) }
 			{ displaySave(blog.id) }
 			<p>Likes: { blog.likes }</p>
 			<button onClick={ () => likeBlog(blog) }>Like</button>
+			<button onClick={ editValue => setEdit(!editValue) }>Edit</button>
 			{ user && blog.author.id === user.id ?
 				<>
 					<button onClick={ () => handleEdit(blog.id) }>Edit</button>
