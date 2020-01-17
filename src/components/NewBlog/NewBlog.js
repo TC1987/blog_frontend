@@ -31,13 +31,6 @@ const NewBlog = props => {
 		const titleValue = title.attributes.value;
 		const contentValue = content.attributes.value;
 
-		const newBlog = {
-			title: titleValue,
-			content: contentValue,
-			image: formData,
-			author: props.user.id
-		};
-
 		try {
 			const createdBlog = await blogs_create(formData);
 

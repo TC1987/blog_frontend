@@ -10,8 +10,6 @@ import { user_update } from '../../reducers/userReducer';
 
 import Comments from '../Comments/Comments';
 
-import useField from '../../hooks/useField';
-
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
 	const [edit, setEdit] = useState(false);

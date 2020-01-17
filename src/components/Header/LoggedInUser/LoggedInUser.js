@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Button from '../Button/Button';
+import Button from '../../Button/Button';
 
-import { user_logout } from '../../reducers/userReducer';
+import { user_logout } from '../../../reducers/userReducer';
 
 const LoggedInUser = ({ user, user_logout }) => {
 	const logout = () => {

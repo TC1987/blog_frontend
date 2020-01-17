@@ -6,7 +6,7 @@ const NavMenu = props => {
 	return (
 		<nav>
 			<ul>
-				{ props.user ? <li><Link to='/blogs/new'>New Blog</Link></li> : null }
+				{props.user ? <li><Link to='/blogs/new'>New Blog</Link></li> : null}
 				<li><Link to='/'>Blogs</Link></li>
 				<li><Link to='/users'>Users</Link></li>
 				<li><Link to='/login'>Login</Link></li>
