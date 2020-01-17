@@ -10,8 +10,8 @@ import Blog from '../Blog/Blog';
 
 const blogList = blogs => {
 	return blogs.map(blog => (
-		<li key={ blog.id }>
-			<Blog blog={ blog } />
+		<li key={blog.id}>
+			<Blog blog={blog} />
 		</li>
 	));
 };
@@ -19,13 +19,14 @@ const blogList = blogs => {
 const Blogs = props => {
 	useEffect(() => {
 		blogs_getAll().then(blogs => {
+			console.log(blogs);
 			props.blogs_init(blogs);
 		});
 	}, []);
 
 	return (
 		<ul>
-			{ blogList(props.blogs) }
+			{blogList(props.blogs)}
 		</ul>
 	);
 };

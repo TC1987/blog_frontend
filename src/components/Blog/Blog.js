@@ -6,11 +6,13 @@ import { blogs_service_update, blogs_service_delete } from '../../services/blogs
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
 
 const Blog = props => {
-	const { id, title, content, author, likes } = props.blog;
+	const { id, title, content, author, likes, pictureUrl } = props.blog;
 	const { user } = props;
 
+	console.log(pictureUrl);
+
 	const handleEdit = id => {
-		
+
 	};
 
 	const handleDelete = async id => {
@@ -34,15 +36,16 @@ const Blog = props => {
 
 	return (
 		<div>
-			<Link to={ `/blogs/${id}` }>Title: { title }</Link>
-			<p>Content: { content }</p>
-			<p>Author: { author.name }</p>
-			<p>Likes: { likes }</p>
-			<button onClick={ () => likeBlog(props.blog) }>Like</button>
-			{ user && author.id === user.id ?
+			{pictureUrl ? <img src={pictureUrl} alt="image" style={{ height: '200px', display: 'block' }}></img> : null}
+			<Link to={`/blogs/${id}`}>Title: {title}</Link>
+			<p>Content: {content}</p>
+			<p>Author: {author.name}</p>
+			<p>Likes: {likes}</p>
+			<button onClick={() => likeBlog(props.blog)}>Like</button>
+			{user && author.id === user.id ?
 				<>
-					<button onClick={ () => handleEdit(id) }>Edit</button>
-					<button onClick={ () => handleDelete(id) }>Delete</button>
+					<button onClick={() => handleEdit(id)}>Edit</button>
+					<button onClick={() => handleDelete(id)}>Delete</button>
 				</>
 				:
 				null

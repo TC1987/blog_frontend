@@ -55,7 +55,7 @@ const App = props => {
 				<Route exact path='/blogs' component={ Dashboard } />
 				<Route exact path='/register' component={ Register } />
 				<Route path='/login' render={ () => props.user ? <Redirect to='/' /> : <Login /> } />
-				<Route path='/blogs/new' render={ () => props.user ? <NewBlog /> : <Redirect to='/' /> } />
+				<Route path='/blogs/new' render={ routeProps => props.user ? <NewBlog { ...routeProps } /> : <Redirect to='/' /> } />
 				<Route path='/users/:id' component={ User } />
 				<Route path='/blogs/:id' component={ SingleBlog } />
 				<Route component={ NotFound } />

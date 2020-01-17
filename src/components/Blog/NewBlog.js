@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { blogs_create } from '../../services/blogs';
@@ -13,9 +13,20 @@ import { user_logout } from '../../reducers/userReducer';
 const NewBlog = props => {
 	const title = useField('text', 'Title');
 	const content = useField(null, 'Content');
+	const [image, setImage] = useState(null);
+
+	const fileChange = e => {
+		setImage(e.target.files[0]);
+	}
 
 	const handleSubmit = async e => {
 		e.preventDefault();
+
+		const formData = new FormData();
+		formData.set('title', title.attributes.value);
+		formData.set('content', content.attributes.value);
+		formData.set('image', image);
+		formData.set('author', props.user.id)
 
 		const titleValue = title.attributes.value;
 		const contentValue = content.attributes.value;
@@ -23,38 +34,39 @@ const NewBlog = props => {
 		const newBlog = {
 			title: titleValue,
 			content: contentValue,
+			image: formData,
 			author: props.user.id
 		};
 
-		title.reset();
-		content.reset();
-
 		try {
-			const createdBlog = await blogs_create(newBlog);
+			const createdBlog = await blogs_create(formData);
 
 			props.blogs_add(createdBlog);
 			props.message_update(`New Blog Created: ${titleValue}`);
 			setTimeout(() => props.message_update(null), 3000);
-			props.history.push('/');
 		} catch (err) {
 			// if (invalidorexpiredtoken) {
-				window.localStorage.removeItem('user');
-				window.localStorage.removeItem('token');
-				props.user_logout();
+			window.localStorage.removeItem('user');
+			window.localStorage.removeItem('token');
+			props.user_logout();
 			// }
 
 			props.message_update(`Error: ${err}`);
 			setTimeout(() => props.message_update(null), 3000);
-			props.history.push('/');
 		}
+
+		title.reset();
+		content.reset();
+		props.history.push('/');
 	};
 
 	return (
-		<form onSubmit={ handleSubmit }>
-			<input { ...title.attributes }></input>
-			<textarea { ...content.attributes }></textarea>
+		<form onSubmit={handleSubmit}>
+			<input {...title.attributes}></input>
+			<textarea {...content.attributes}></textarea>
+			<input type="file" name="image" onChange={fileChange}></input>
 			<input type="submit" value="Create"></input>
-		</form>
+		</form >
 	);
 };
 

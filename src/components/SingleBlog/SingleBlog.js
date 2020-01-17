@@ -10,9 +10,14 @@ import { user_update } from '../../reducers/userReducer';
 
 import Comments from '../Comments/Comments';
 
+import useField from '../../hooks/useField';
+
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
 	const [edit, setEdit] = useState(false);
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+
 	const { user, user_update } = props;
 
 	useEffect(() => {
@@ -23,6 +28,9 @@ const SingleBlog = props => {
 					...blog,
 					views: blog.views + 1
 				});
+				return () => {
+					console.log('Component has been unmounted');
+				}
 			});
 	}, []);
 
@@ -123,28 +131,45 @@ const SingleBlog = props => {
 		)
 	}
 
-	return blog ?
+	const displayEdit = () => {
+		if (!edit) {
+			return (
+				<React.Fragment>
+					<p>Title: { blog.title }</p>
+					<p>Content: { blog.content }</p>
+				</React.Fragment>
+			)
+		}
+
+		return (
+			<React.Fragment>
+				<input type="text" value={ title } onChange={ e => setTitle(e.target.value) } placeholder="Title" />
+				<textarea value={ content } onChange={ e => setContent(e.target.value) } placeholder="Content" />
+				<button>Save Changes</button>
+			</React.Fragment>
+		)
+	}
+
+	return blog &&
 		<div>
-			<p>Title: { blog.title }</p>
-			<p>Content: { blog.content }</p>
+			{ displayEdit() }
 			<Link to={ `/users/${blog.author.id}` }>Author: { blog.author.name }</Link>
-			{ displayFollow(blog.author.id) }
-			{ displaySave(blog.id) }
+			{ user.id !== blog.author.id && displayFollow(blog.author.id) }
+			{ user.id !== blog.author.id && displaySave(blog.id) }
 			<p>Likes: { blog.likes }</p>
 			<button onClick={ () => likeBlog(blog) }>Like</button>
-			<button onClick={ editValue => setEdit(!editValue) }>Edit</button>
-			{ user && blog.author.id === user.id ?
-				<>
-					<button onClick={ () => handleEdit(blog.id) }>Edit</button>
+			{ user && blog.author.id === user.id &&
+				<React.Fragment>
+					<button onClick={ () => {
+						setTitle(blog.title);
+						setContent(blog.content);
+						setEdit(edit => !edit)
+					}}>Edit</button>
 					<button onClick={ () => handleDelete(blog.id) }>Delete</button>
-				</>
-				:
-				null
+				</React.Fragment>
 			}
 			<Comments id={ blog.id } />
 		</div>
-		:
-		null;
 };
 
 const mapStateToProps = state => {
