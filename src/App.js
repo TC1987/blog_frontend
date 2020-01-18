@@ -45,18 +45,20 @@ const App = props => {
 		<div className={ styles.container }>
 			<BrowserRouter>
 				<Header />
-				<Switch>
-					<Route exact path='/' component={Dashboard} />
-					<Route exact path='/users' component={Users} />
-					<Route exact path='/blogs' component={Dashboard} />
-					<Route exact path='/register' component={Register} />
-					<Route path='/login' render={() => props.user ? <Redirect to='/' /> : <Login />} />
-					<Route path='/blogs/new' render={routeProps => props.user ? <BlogNew {...routeProps} /> : <Redirect to='/' />} />
-					<Route path='/users/:id' component={User} />
-					<Route path='/blogs/:id' component={SingleBlog} />
-					<Route component={NotFound} />
-				</Switch>
-				<Sidebar />
+				<div className={ styles.main }>
+					<Switch>
+						<Route exact path='/' component={Dashboard} />
+						<Route exact path='/users' component={Users} />
+						<Route exact path='/blogs' component={Dashboard} />
+						<Route exact path='/register' component={Register} />
+						<Route path='/login' render={() => props.user ? <Redirect to='/' /> : <Login />} />
+						<Route path='/blogs/new' render={routeProps => props.user ? <BlogNew {...routeProps} /> : <Redirect to='/' />} />
+						<Route path='/users/:id' component={User} />
+						<Route path='/blogs/:id' component={SingleBlog} />
+						<Route component={NotFound} />
+					</Switch>
+					<Sidebar />
+				</div>
 				<Footer />
 			</BrowserRouter>
 		</div>

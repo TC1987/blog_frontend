@@ -18,7 +18,9 @@ const Header = props => {
 				<div className={ styles.logo }>TIL</div>
 				<Filter />
 				{/* <LoggedInUser /> */}
-				<Burger style={{ fontSize: '8px' }} isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
+				<div className={ styles.menu }>
+					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
+				</div>
 			</div>
 		</header>
 	)
