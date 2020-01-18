@@ -1,0 +1,15 @@
+.sidebar {
+	background-color: #333;
+	transform: translateX(100%);
+	position: fixed;
+	top: 50px;
+	right: 0;
+	height: 100vh;
+	transition: all .2s ease-in;
+	padding: 2em;
+	z-index: 1;
+}
+
+.show {
+	transform: translateX(0);
+}

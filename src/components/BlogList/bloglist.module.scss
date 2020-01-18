@@ -1,0 +1,24 @@
+.container {
+	list-style: none;
+	display: flex;
+	flex-flow: row wrap;
+	margin-top: 50px;
+}
+
+.blog {
+	flex-basis: 100%;
+	padding: 1em;
+	background-color: #aaa;
+}
+
+@media all and (min-width: 480px) {
+	.blog {
+		flex-basis: 50%;
+	}
+}
+
+@media all and (min-width: 840px) {
+	.blog {
+		flex-basis: 33.3%;
+	}
+}

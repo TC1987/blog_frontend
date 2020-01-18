@@ -8,11 +8,15 @@ import { Provider } from 'react-redux';
 import userReducer from './reducers/userReducer';
 import blogsReducer from './reducers/blogReducer';
 import messageReducer from './reducers/messageReducer';
+import filterReducer from './reducers/filterReducer';
+import sidebarReducer from './reducers/sidebarReducer';
 
 const reducers = combineReducers({
 	user: userReducer,
 	blogs: blogsReducer,
-	message: messageReducer
+	message: messageReducer,
+	filter: filterReducer,
+	isSidebarOpen: sidebarReducer 
 });
 
 const store = createStore(reducers);

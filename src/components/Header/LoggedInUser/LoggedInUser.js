@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '@animated-burgers/burger-squeeze/dist/styles.css';
+import Burger from '@animated-burgers/burger-squeeze';
 
 import Button from '../../Button/Button';
 
 import { user_logout } from '../../../reducers/userReducer';
+import styles from './loggedinuser.module.scss';
 
 const LoggedInUser = ({ user, user_logout }) => {
 	const logout = () => {
@@ -15,11 +18,11 @@ const LoggedInUser = ({ user, user_logout }) => {
 
 	return user ?
 		<div>
-			<h1>Logged In User: <Link to={ `/users/${user.id}` }>{ user.name }</Link></h1>
-			<Button label="Logout" onClick={ logout } />
+			<Link to={ `/users/${user.id}` } className={ styles.username }>{ user.name }</Link>
+			{/* <Button label="Logout" onClick={ logout } /> */}
 		</div>
 		:
-		null;
+		<Burger style={{ fontSize: '8px' }} isOpen={false} />
 };
 
 

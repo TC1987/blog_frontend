@@ -1,0 +1,18 @@
+@import '../../scss/main.scss';
+
+.header {
+	background-color: $grey-1;
+	height: 50px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.container {
+	width: 95%;
+	margin: auto;
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

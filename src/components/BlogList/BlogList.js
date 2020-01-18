@@ -5,12 +5,12 @@ import { blogs_getAll } from '../../services/blogs';
 
 import { blogs_init, blogs_add } from '../../reducers/blogReducer';
 import { message_update } from '../../reducers/messageReducer';
-
 import Blog from '../Blog/Blog';
+import styles from './bloglist.module.scss';
 
 const blogList = blogs => {
 	return blogs.map(blog => (
-		<li key={blog.id}>
+		<li key={blog.id} className={ styles.blog }>
 			<Blog blog={blog} />
 		</li>
 	));
@@ -19,13 +19,12 @@ const blogList = blogs => {
 const Blogs = props => {
 	useEffect(() => {
 		blogs_getAll().then(blogs => {
-			console.log(blogs);
 			props.blogs_init(blogs);
 		});
 	}, []);
 
 	return (
-		<ul>
+		<ul className={ styles.container }>
 			{blogList(props.blogs)}
 		</ul>
 	);

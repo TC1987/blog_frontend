@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Blogs from '../Blogs/Blogs';
+import Blogs from '../BlogList/BlogList';
 
 const Dashboard = props => {
 	return (

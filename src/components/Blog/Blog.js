@@ -9,8 +9,6 @@ const Blog = props => {
 	const { id, title, content, author, likes, pictureUrl } = props.blog;
 	const { user } = props;
 
-	console.log(pictureUrl);
-
 	const handleEdit = id => {
 
 	};
@@ -36,7 +34,7 @@ const Blog = props => {
 
 	return (
 		<div>
-			{pictureUrl ? <img src={pictureUrl} alt="image" style={{ height: '200px', display: 'block' }}></img> : null}
+			{pictureUrl ? <img src={pictureUrl} alt="image" style={{ height: '100px', display: 'block' }}></img> : null}
 			<Link to={`/blogs/${id}`}>Title: {title}</Link>
 			<p>Content: {content}</p>
 			<p>Author: {author.name}</p>
