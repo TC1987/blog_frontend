@@ -1,60 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import useField from '../../hooks/useField';
+import styles from './comments.module.scss';
 
-import { getComments, addComment } from '../../services/comments';
-
-const Comment = props => {
-	const [comments, setComments] = useState([]);
-	const comment = useField(null, 'Comment');
-	const name = useField('text', 'Name');
-
-	useEffect(() => {
-		getComments(props.id).then(comments => {
-			setComments(comments);
-		});
-	}, []);
-
-	const handleSubmit = async e => {
-		e.preventDefault();
-
-		const newComment = {
-			comment: comment.attributes.value,
-			name: name.attributes.value
-		};
-
-		comment.reset();
-		name.reset();
-
-		try {
-			const savedComment = await addComment(props.id, newComment);
-			setComments([...comments, savedComment]);
-		} catch (err) {
-			console.log(err.message);
+const Comments = ({ comments }) => {
+	const formatDate = timestamp => {
+		if (!timestamp) {
+			return;
 		}
-	};
 
-	const listComments = () => {
-		return comments.map(comment => (
-			<li key={ comment.id }>
-				<p>{ comment.comment }</p>
-				<p>{ comment.name }</p>
-			</li>
-		));
-	};
+		const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+		const date = new Date(timestamp);
+
+		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+	}
+
+	const formatTime = timestamp => {
+		if (!timestamp) {
+			return;
+		}
+
+		const date = new Date(timestamp);
+
+		return `${date.getHours()}:${date.getMinutes()}`;
+	}
 
 	return (
-		<>
-			<form onSubmit={ handleSubmit }>
-				<textarea { ...comment.attributes} />
-				<input { ...name.attributes} />
-				<input type="submit" value="Add Comment" />
-			</form>
-			<ul>
-				{ listComments() }
-			</ul>
-		</>
-	);
-};
+		<ul className={ styles.container }>
+			{ comments.map(comment => (
+				<li key={ comment.id } className={ styles.item }>
+					<div className={ styles.authorDate }>
+						<p className={ styles.item__author }>{ comment.author.name }</p>
+						<p className={ styles.item__date }>{ formatDate(comment.date) }</p>
+					</div>
+					<p className={ styles.item__content }>{ comment.comment }</p>
+				</li>
+			)) }
+		</ul>
+	)
+}
 
-export default Comment;
+export default Comments;

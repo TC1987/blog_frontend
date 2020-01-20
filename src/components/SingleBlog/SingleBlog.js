@@ -8,7 +8,7 @@ import { users_update } from '../../services/users';
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
 import { user_update } from '../../reducers/userReducer';
 
-import Comments from '../Comments/Comments';
+import CommentList from '../CommentList/CommentList';
 
 import styles from './singleblog.module.scss';
 
@@ -213,8 +213,6 @@ const SingleBlog = props => {
 		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 	}
 
-	console.log(blog);
-
 	return blog &&
 		<div className={ styles.container }>
 			{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.image }></img> }
@@ -245,7 +243,7 @@ const SingleBlog = props => {
 				</React.Fragment>
 			} */}
 			{/* <div className={ styles.heart }></div> */}
-			<Comments id={ blog.id } />
+			<CommentList id={ blog.id } />
 		</div>
 };
 
