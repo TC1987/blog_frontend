@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { users_register } from '../../services/users';
 import { user_login } from '../../reducers/userReducer';
 import { message_update } from '../../reducers/messageReducer';
 
 import useField from '../../hooks/useField';
+
+import styles from './register.module.scss';
 
 const Register = props => {
 	const name = useField('text', 'Name');
@@ -38,14 +41,16 @@ const Register = props => {
 	}
 
 	return (
-		<React.Fragment>
-			<form onSubmit={ register }>
-				<input { ...name.attributes } />
-				<input { ...email.attributes } />
-				<input { ...password.attributes } />
-				<input type="submit" value="Register" />
+		<div className={ styles.container }>
+			<div className={ styles.image }></div>
+			<form onSubmit={ register } className={ styles.form }>
+				<input { ...name.attributes } className={ styles.form__field } />
+				<input { ...email.attributes } className={ styles.form__field } />
+				<input { ...password.attributes } className={ styles.form__field }/>
+				<button type="submit" value="Register" className={ `${styles.form__button} ${styles.form__button__login}` }>Register</button>
 			</form>
-		</React.Fragment>
+			<p>Already have an account? <span className={ styles.bold }><Link to={'/login'} className={ styles.link }>Login</Link></span></p>
+		</div>
 	)
 }
 

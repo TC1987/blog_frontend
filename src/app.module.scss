@@ -3,6 +3,13 @@
 .container {
 	position: absolute;
 	left: 0;
-	// max-width: 90%;
-	// margin: 1em auto 0;
+	top: 0;
+	background-color: $grey-2;
+	color: $white-1;
+	width: 100%;
+}
+
+.main {
+	width: 90%;
+	margin: auto;
 }

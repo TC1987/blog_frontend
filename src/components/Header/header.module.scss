@@ -11,7 +11,7 @@
 }
 
 .container {
-	width: 95%;
+	width: 90%;
 	margin: auto;
 	display: flex;
 	justify-content: space-between;
@@ -21,6 +21,7 @@
 .logo {
 	flex: 1;
 	color: $white-1;
+	font-weight: 700;
 }
 
 .menu {
@@ -29,6 +30,11 @@
 	justify-content: flex-end;
 
 	&__burger {
-		font-size: 8px;
+		font-size: 6px;
 	}
+}
+
+.link {
+	text-decoration: none;
+	color: $white-1;
 }

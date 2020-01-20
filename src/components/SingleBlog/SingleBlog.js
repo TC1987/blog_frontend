@@ -10,6 +10,8 @@ import { user_update } from '../../reducers/userReducer';
 
 import Comments from '../Comments/Comments';
 
+import styles from './singleblog.module.scss';
+
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
 	const [edit, setEdit] = useState(false);
@@ -45,11 +47,16 @@ const SingleBlog = props => {
 		}
 	};
 
-	const likeBlog = async blog => {
+	const editBlogLike = async (blog, type) => {
 		let updatedBlog = {
 			...blog,
-			likes: blog.likes + 1,
 		};
+
+		if (type === 'INCREMENT') {
+			updatedBlog.likes = updatedBlog.likes + 1;
+		} else {
+			updatedBlog.likes = updatedBlog.likes - 1;
+		}
 
 		updatedBlog = await blogs_service_update(updatedBlog);
 		setBlog(updatedBlog);
@@ -62,7 +69,7 @@ const SingleBlog = props => {
 		console.log(updatedUser);
 	}
 
-	const { addUser, removeUser, addBlog, removeBlog } = {
+	const { addUser, removeUser, addBlog, removeBlog, likeBlog, unlikeBlog } = {
 		addUser: userId => ({
 			op: '$push',
 			field: 'followedUsers',
@@ -81,6 +88,16 @@ const SingleBlog = props => {
 		removeBlog: blogId => ({
 			op: '$pull',
 			field: 'savedBlogs',
+			value: blogId
+		}),
+		likeBlog: blogId => ({
+			op: '$push',
+			field: 'likedBlogs',
+			value: blogId
+		}),
+		unlikeBlog: blogId => ({
+			op: '$pull',
+			field: 'likedBlogs',
 			value: blogId
 		})
 	}
@@ -129,12 +146,40 @@ const SingleBlog = props => {
 		)
 	}
 
+	const displayLike = blog => {
+		if (!user) {
+			return;
+		}
+
+		const blogIndex = user.likedBlogs.findIndex(id => id === blog.id);
+
+		if (blogIndex === -1) {
+			return (
+				<button onClick={ () => {
+					updateUserProperty(likeBlog(blog.id));
+					editBlogLike(blog, 'INCREMENT');
+				} }>
+					Like
+				</button>
+			)
+		}
+
+		return (
+			<button onClick={ () => {
+				updateUserProperty(unlikeBlog(blog.id));
+				editBlogLike(blog, 'DECREMENT');
+			} }>
+				Unlike
+			</button>
+		)
+	}
+
 	const displayEdit = () => {
 		if (!edit) {
 			return (
 				<React.Fragment>
-					<p>Title: { blog.title }</p>
-					<p>Content: { blog.content }</p>
+					<p>{ blog.title }</p>
+					<p>{ blog.content }</p>
 				</React.Fragment>
 			)
 		}
@@ -148,14 +193,37 @@ const SingleBlog = props => {
 		)
 	}
 
+	const formatDate = timestamp => {
+		if (!timestamp) {
+			return;
+		}
+
+		const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+		const date = new Date(timestamp);
+
+		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+	}
+
+	console.log(blog);
+
 	return blog &&
-		<div>
-			{ displayEdit() }
-			<Link to={ `/users/${blog.author.id}` }>Author: { blog.author.name }</Link>
-			{ user.id !== blog.author.id && displayFollow(blog.author.id) }
-			{ user.id !== blog.author.id && displaySave(blog.id) }
+		<div className={ styles.container }>
+			{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.image }></img> }
+			<p className={ styles.date }>{ formatDate(blog.updatedAt) }</p>
+			<h1 className={ styles.title }>{ blog.title }</h1>
+			<div className={ styles.authorTime }>
+				<p className={ styles.authorTime__author }>By { blog.author.name }</p>
+				<p className={ styles.authorTime__time }>{ blog.readTime } min read</p>
+			</div>
+			<p className={ styles.content }>{ blog.content }</p>
+			{/* <div className={ styles.titleContent }>
+				{ displayEdit() }
+			</div> */}
 			<p>Likes: { blog.likes }</p>
-			<button onClick={ () => likeBlog(blog) }>Like</button>
+			{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
+			{ user && user.id !== blog.author.id && displaySave(blog.id) }
+			{ user && user.id !== blog.author.id && displayLike(blog) }	
 			{ user && blog.author.id === user.id &&
 				<React.Fragment>
 					<button onClick={ () => {

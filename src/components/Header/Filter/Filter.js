@@ -8,7 +8,7 @@ import styles from './filter.module.scss';
 const Filter = ({ filter, updateFilter}) => {
 	return (
 		<React.Fragment>
-			<input type="text" id="filter" value={ filter } onChange={ e => updateFilter(e.target.value) } className={ styles.filterField }></input>
+			<input type="text" id="filter" value={ filter } onChange={ e => updateFilter(e.target.value) } className={ styles.filterField } placeholder="Search"></input>
 		</React.Fragment>
 	);
 }

@@ -1,15 +1,113 @@
+@import '../../scss/main.scss';
+
 .sidebar {
-	background-color: #333;
+	background-color: $grey-2;
 	transform: translateX(100%);
 	position: fixed;
-	top: 50px;
+	top: $margin-top;
 	right: 0;
-	height: 100vh;
+	height: calc(100vh - #{$margin-top});
 	transition: all .2s ease-in;
-	padding: 2em;
-	z-index: 1;
+	z-index: 100;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 1.2em 1em;
 }
 
 .show {
 	transform: translateX(0);
 }
+
+.login {
+	background-color: $green-3;
+	padding: 1em 2em;
+	outline: none;
+	border: none;
+	border-radius: $border-radius;
+	color: $white-1;
+	font-size: .7rem;
+	letter-spacing: .7px;
+	width: 100%;
+}
+
+.separator {
+	display: flex;
+	justify-content: center;
+	margin: 2em 0;
+	color: white;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: .8rem;
+}
+
+.container {
+	// background-image: url(../../images/trees.jpg);
+	// background-size: cover;
+	// background-position: center center;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.text {
+	flex: 1;
+	background-image: url(../../images/abstract.jpg);
+	background-size: cover;
+	border-radius: $border-radius;
+	color: $white-1;
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 1em;
+
+	&__title {
+		font-size: 2rem;
+		margin-bottom: 1em;
+	}
+
+	&__content {
+		letter-spacing: 1px;
+		line-height: 1.5em;
+	}
+}
+
+.buttons {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+.button {
+	display: block;
+	width: 100%;
+	color: $white-1;
+	height: 40px;
+	border: 0;
+	outline: 0;
+	font-size: .9rem;
+	font-weight: 700;
+	letter-spacing: .5px;
+	border-radius: $border-radius;
+
+	&:not(:last-child) {
+		margin-bottom: 1em;
+	}
+
+	&___green {
+		background-color: $green-3;
+	}
+
+	&___light {
+		background-color: $green-1;
+	}
+
+	&__link {
+		text-decoration: none;
+		color: $white-1;
+	}
+}
+
