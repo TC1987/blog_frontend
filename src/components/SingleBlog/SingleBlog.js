@@ -12,6 +12,14 @@ import Comments from '../Comments/Comments';
 
 import styles from './singleblog.module.scss';
 
+import bolt from '../../images/bolt2.svg';
+
+const Bolt = () => {
+	return (
+		<svg className={ styles.bolt }></svg>
+	)
+}
+
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
 	const [edit, setEdit] = useState(false);
@@ -220,11 +228,13 @@ const SingleBlog = props => {
 			{/* <div className={ styles.titleContent }>
 				{ displayEdit() }
 			</div> */}
-			<p>Likes: { blog.likes }</p>
+			<div className={ styles.likes }>
+				<p className={ styles.likes__text }>{ blog.likes } <span className={ styles.likes__bold }>likes</span></p>
+			</div>
 			{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
 			{ user && user.id !== blog.author.id && displaySave(blog.id) }
 			{ user && user.id !== blog.author.id && displayLike(blog) }	
-			{ user && blog.author.id === user.id &&
+			{/* { user && blog.author.id === user.id &&
 				<React.Fragment>
 					<button onClick={ () => {
 						setTitle(blog.title);
@@ -233,7 +243,8 @@ const SingleBlog = props => {
 					}}>Edit</button>
 					<button onClick={ () => handleDelete(blog.id) }>Delete</button>
 				</React.Fragment>
-			}
+			} */}
+			{/* <div className={ styles.heart }></div> */}
 			<Comments id={ blog.id } />
 		</div>
 };
