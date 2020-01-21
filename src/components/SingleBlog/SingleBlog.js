@@ -68,7 +68,6 @@ const SingleBlog = props => {
 		const updatedUser = await users_update(updateObject);
 		user_update(updatedUser);
 		window.localStorage.setItem('user', JSON.stringify(updatedUser));
-		console.log(updatedUser);
 	}
 
 	const { addUser, removeUser, addBlog, removeBlog, likeBlog, unlikeBlog } = {
@@ -113,14 +112,20 @@ const SingleBlog = props => {
 
 		if (authorIndex === -1) {
 			return (
-				<button onClick={ () => updateUserProperty(addUser(userId)) }>
-					Follow { blog.author.name }
+				<button
+					onClick={ () => updateUserProperty(addUser(userId)) }
+					className={ styles.stats__follow }
+				>
+					Follow
 				</button>
 			)
 		}
 		
 		return (
-			<button onClick={ () => updateUserProperty(removeUser(userId)) }>
+			<button
+				onClick={ () => updateUserProperty(removeUser(userId)) }
+				className={ styles.stats__follow }
+			>
 				Unfollow
 			</button>
 		)
@@ -135,14 +140,20 @@ const SingleBlog = props => {
 
 		if (blogIndex === -1) {
 			return (
-				<button onClick={ () => updateUserProperty(addBlog(blogId)) }>
+				<button
+					onClick={ () => updateUserProperty(addBlog(blogId)) } 
+					className={ styles.stats__save }
+				>
 					Save
 				</button>
 			)
 		}
 
 		return (
-			<button onClick={ () => updateUserProperty(removeBlog(blogId)) }>
+			<button
+				onClick={ () => updateUserProperty(removeBlog(blogId)) }
+				className={ styles.stats__save }	
+			>
 				Unsave
 			</button>
 		)
@@ -160,7 +171,7 @@ const SingleBlog = props => {
 				<button onClick={ () => {
 					updateUserProperty(likeBlog(blog.id));
 					editBlogLike(blog, 'INCREMENT');
-				} }>
+				} } className={ styles.stats__like }>
 					Like
 				</button>
 			)
@@ -170,30 +181,30 @@ const SingleBlog = props => {
 			<button onClick={ () => {
 				updateUserProperty(unlikeBlog(blog.id));
 				editBlogLike(blog, 'DECREMENT');
-			} }>
+			} } className={ styles.stats__like }>
 				Unlike
 			</button>
 		)
 	}
 
-	const displayEdit = () => {
-		if (!edit) {
-			return (
-				<React.Fragment>
-					<p>{ blog.title }</p>
-					<p>{ blog.content }</p>
-				</React.Fragment>
-			)
-		}
+	// const displayEdit = () => {
+	// 	if (!edit) {
+	// 		return (
+	// 			<React.Fragment>
+	// 				<p>{ blog.title }</p>
+	// 				<p>{ blog.content }</p>
+	// 			</React.Fragment>
+	// 		)
+	// 	}
 
-		return (
-			<React.Fragment>
-				<input type="text" value={ title } onChange={ e => setTitle(e.target.value) } placeholder="Title" />
-				<textarea value={ content } onChange={ e => setContent(e.target.value) } placeholder="Content" />
-				<button>Save Changes</button>
-			</React.Fragment>
-		)
-	}
+	// 	return (
+	// 		<React.Fragment>
+	// 			<input type="text" value={ title } onChange={ e => setTitle(e.target.value) } placeholder="Title" />
+	// 			<textarea value={ content } onChange={ e => setContent(e.target.value) } placeholder="Content" />
+	// 			<button>Save Changes</button>
+	// 		</React.Fragment>
+	// 	)
+	// }
 
 	const formatDate = timestamp => {
 		if (!timestamp) {
@@ -209,23 +220,29 @@ const SingleBlog = props => {
 
 	return blog &&
 		<div className={ styles.container }>
-			{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.image }></img> }
-			<p className={ styles.date }>{ formatDate(blog.updatedAt) }</p>
-			<h1 className={ styles.title }>{ blog.title }</h1>
-			<div className={ styles.authorTime }>
-				<p className={ styles.authorTime__author }>By { blog.author.name }</p>
-				<p className={ styles.authorTime__time }>{ blog.readTime } min read</p>
+			<div className={ styles.content }>
+				{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.content__image }></img> }
+				<p className={ styles.content__date }>{ formatDate(blog.updatedAt) }</p>
+				<h1 className={ styles.content__title }>{ blog.title }</h1>
+				<div className={ styles.content__authorTime }>
+					<p className={ styles.content__authorTime__author }>By { blog.author.name }</p>
+					<p className={ styles.content__authorTime__time }>{ blog.readTime } min read</p>
+				</div>
+				<p className={ styles.content__content }>{ blog.content }</p>
 			</div>
-			<p className={ styles.content }>{ blog.content }</p>
 			{/* <div className={ styles.titleContent }>
 				{ displayEdit() }
 			</div> */}
+
 			<div className={ styles.likes }>
 				<p className={ styles.likes__text }>{ blog.likes } <span className={ styles.likes__bold }>likes</span></p>
 			</div>
-			{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
-			{ user && user.id !== blog.author.id && displaySave(blog.id) }
-			{ user && user.id !== blog.author.id && displayLike(blog) }	
+
+			<div className={ styles.stats }>
+				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
+				{ user && user.id !== blog.author.id && displayLike(blog) }	
+				{ user && user.id !== blog.author.id && displaySave(blog.id) }
+			</div>
 			{/* { user && blog.author.id === user.id &&
 				<React.Fragment>
 					<button onClick={ () => {

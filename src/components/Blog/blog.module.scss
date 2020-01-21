@@ -1,9 +1,6 @@
 @import '../../scss/main.scss';
 
 .blog {
-	// margin-bottom: 2rem;
-	// background-color: red;
-	
 	&__image {
 		width: 100%;
 		display: block;
@@ -51,7 +48,7 @@
 // }
 
 .stats {
-	margin-top: 3rem;
+	margin-top: 2rem;
 	display: flex;
 	justify-content: space-between;
 
