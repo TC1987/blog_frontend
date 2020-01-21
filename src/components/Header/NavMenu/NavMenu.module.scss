@@ -5,33 +5,43 @@
 	list-style: none;
 	color: $white-1;
 	letter-spacing: .5px;
+	height: 100%;
+	padding: 2em;
+	color: $white-1;
+	text-decoration: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.menuStats {
+	display: flex;
+	flex-direction: column;
 
 	& > * {
-		font-weight: 500;
-		width: 100%;
 		display: block;
-		color: white;
-		text-decoration: none;
-
-		&:not(:last-child) {
-		}
+		margin: 2em 0;
 	}
 }
 
 .profile {
 	display: flex;
 	align-items: center;
-	padding: 2em;
+	// padding: 2em;
 
 	&__image {
 		width: 60px;
 		height: 60px;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 2px;
 		margin-right: 1em;
 	}
 
 	&__name {
+		&__thin {
+			font-weight: 400;
+		}
+
 		&__user {
 			margin-bottom: 4px;
 		}
@@ -43,10 +53,8 @@
 }
 
 .links {
-	padding: 1em 2em;
-	// background-color: $grey-3;
-	
 	&__link {
+		font-weight: 700;
 		width: 100%;
 		display: block;
 		color: white;
@@ -56,9 +64,20 @@
 	}
 }
 
+.stats {
+	// padding: 1em 0;
+
+	&__item {
+		padding: 1em 0;
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
 .logout {
 	// background-color: #D04743;
-	padding: 1em 2em;
+	// padding: 1em 2em;
+	color: $white-1;
 	background-color: transparent;
 	width: 100%;
 	border: none;

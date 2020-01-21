@@ -10,19 +10,37 @@ import styles from './navmenu.module.scss';
 import { user_logout } from '../../../reducers/userReducer';
 
 const NavMenu = props => {
+	console.log(props.user);
+
 	return (
 		<nav className={ styles.container }>
-			<div className={ styles.profile }>
-				<div className={ styles.profile__image }></div>
-				<div className={ styles.profile__name}>
-					<h4 className={ styles.profile__name__user }>Hi, { props.user.name }</h4>
-					{/* <p className={ styles.profile__name__status }>Developer</p> */}
+			<div className={ styles.menuStats }>
+				<div className={ styles.profile }>
+					<div className={ styles.profile__image }></div>
+					<div className={ styles.profile__name}>
+						<h4 className={ styles.profile__name__user }><span className={ styles.profile__name__thin }>Hi, </span>{ props.user.name }</h4>
+						{/* <p className={ styles.profile__name__status }>Developer</p> */}
+					</div>
 				</div>
-			</div>
-			<div className={ styles.links }>
-				<Link to='/blogs/new' className={ styles.links__link }>New Post</Link>
-				<Link to='/' className={ styles.links__link }>Blogs</Link>
-				{/* <Link to='/users' className={ styles.links__link }>Users</Link> */}
+				<div className={ styles.links }>
+					<Link to='/blogs/new' className={ styles.links__link }>New Post</Link>
+					<Link to='/' className={ styles.links__link }>Blogs</Link>
+					{/* <Link to='/users' className={ styles.links__link }>Users</Link> */}
+				</div>
+				<div className={ styles.stats }>
+					<div className={ styles.stats__item }>
+						<p>Blog Count:</p>
+						<p>{ props.user.blogs.length }</p>
+					</div>
+					<div className={ styles.stats__item }>
+						<p>Liked Count:</p>
+						<p>{ props.user.likedBlogs.length }</p>
+					</div>
+					<div className={ styles.stats__item }>
+						<p>Following Count:</p>
+						<p>{ props.user.followedUsers.length }</p>
+					</div>
+				</div>
 			</div>
 			<button className={ styles.logout } onClick={ props.user_logout }>Sign Out</button>
 		</nav>

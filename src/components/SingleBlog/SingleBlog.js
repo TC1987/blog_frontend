@@ -230,6 +230,7 @@ const SingleBlog = props => {
 				</div>
 				<p className={ styles.content__content }>{ blog.content }</p>
 			</div>
+			
 			{/* <div className={ styles.titleContent }>
 				{ displayEdit() }
 			</div> */}
