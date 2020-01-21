@@ -10,6 +10,8 @@ import useField from '../../hooks/useField';
 
 import { user_logout } from '../../reducers/userReducer';
 
+import styles from './newblog.module.scss';
+
 const NewBlog = props => {
 	const title = useField('text', 'Title');
 	const content = useField(null, 'Content');
@@ -54,12 +56,15 @@ const NewBlog = props => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<input {...title.attributes}></input>
-			<textarea {...content.attributes}></textarea>
-			<input type="file" name="image" onChange={fileChange}></input>
-			<input type="submit" value="Create"></input>
-		</form >
+		<div className={ styles.container }>
+			<form onSubmit={handleSubmit} className={ styles.form }>
+				<input {...title.attributes}></input>
+				<textarea {...content.attributes} className={ styles.form__content }></textarea>
+				<label htmlFor="file_upload" className={ styles.form__file__label }>Choose File</label>
+				<input type="file" name="image" id="file_upload" onChange={fileChange} className={ styles.form__file }></input>
+				<button type="submit" className={ styles.form__button } onClick={ handleSubmit }>Create Post</button>
+			</form >
+		</div>
 	);
 };
 

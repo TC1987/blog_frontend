@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 import styles from './navmenu.module.scss';
 
@@ -18,11 +21,11 @@ const NavMenu = props => {
 				</div>
 			</div>
 			<div className={ styles.links }>
-				<Link to='/blogs/new' className={ styles.links__link }>New Blog</Link>
-				<Link to='/' className={ styles.links__link }>All Blogs</Link>
-				<Link to='/users' className={ styles.links__link }>All Users</Link>
+				<Link to='/blogs/new' className={ styles.links__link }>New Post</Link>
+				<Link to='/' className={ styles.links__link }>Blogs</Link>
+				{/* <Link to='/users' className={ styles.links__link }>Users</Link> */}
 			</div>
-			<button className={ styles.logout } onClick={ props.user_logout }>Logout</button>
+			<button className={ styles.logout } onClick={ props.user_logout }>Sign Out</button>
 		</nav>
 	);
 };

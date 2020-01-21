@@ -9,7 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import Users from './components/Users/Users';
 import User from './components/User/User';
 import SingleBlog from './components/SingleBlog/SingleBlog';
-import BlogNew from './components/BlogNew/BlogNew';
+import NewBlog from './components/NewBlog/NewBlog';
 import Register from './components/Register/Register';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -52,7 +52,7 @@ const App = props => {
 						<Route exact path='/blogs' component={Dashboard} />
 						<Route exact path='/register' component={Register} />
 						<Route path='/login' render={() => props.user ? <Redirect to='/' /> : <Login />} />
-						<Route path='/blogs/new' render={routeProps => props.user ? <BlogNew {...routeProps} /> : <Redirect to='/' />} />
+						<Route path='/blogs/new' render={routeProps => props.user ? <NewBlog {...routeProps} /> : <Redirect to='/' />} />
 						<Route path='/users/:id' component={User} />
 						<Route path='/blogs/:id' component={SingleBlog} />
 						<Route component={NotFound} />

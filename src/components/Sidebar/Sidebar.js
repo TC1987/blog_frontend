@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import NavMenu from '../Header/NavMenu/NavMenu';
+import Statistics from '../Statistics/Statistics';
 
 import { toggleSidebar } from '../../reducers/sidebarReducer';
 
@@ -12,7 +13,10 @@ const Sidebar = props => {
 	return (
 		<div className={ `${ styles.sidebar } ${ props.isOpen ? styles.show : null } ${ props.user ? styles.reducedWidth : null }`}>
 			{ props.user ? 
-				<NavMenu />
+				<React.Fragment>
+					<NavMenu />
+					{/* <Statistics /> */}
+				</React.Fragment>
 				:
 				<div className={ styles.container }>
 					<div className={ styles.text }>
