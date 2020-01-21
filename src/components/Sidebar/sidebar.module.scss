@@ -15,6 +15,12 @@
 	padding: 1.2em 1em;
 }
 
+.reducedWidth {
+	width: 220px;
+	background-color: $grey-1;
+	padding: 0;
+}
+
 .show {
 	transform: translateX(0);
 }

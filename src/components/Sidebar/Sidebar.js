@@ -10,7 +10,7 @@ import styles from './sidebar.module.scss';
 
 const Sidebar = props => {
 	return (
-		<div className={ `${ styles.sidebar } ${ props.isOpen ? styles.show : null }`}>
+		<div className={ `${ styles.sidebar } ${ props.isOpen ? styles.show : null } ${ props.user ? styles.reducedWidth : null }`}>
 			{ props.user ? 
 				<NavMenu />
 				:

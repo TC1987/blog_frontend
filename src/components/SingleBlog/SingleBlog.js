@@ -14,12 +14,6 @@ import styles from './singleblog.module.scss';
 
 import bolt from '../../images/bolt2.svg';
 
-const Bolt = () => {
-	return (
-		<svg className={ styles.bolt }></svg>
-	)
-}
-
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
 	const [edit, setEdit] = useState(false);
