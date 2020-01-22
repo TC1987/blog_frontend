@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -8,14 +8,17 @@ import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import styles from './navmenu.module.scss';
 
 import { user_logout } from '../../../reducers/userReducer';
+import { closeSidebar } from '../../../reducers/sidebarReducer';
 
 const NavMenu = props => {
 	const logout = () => {
 		window.localStorage.removeItem('user');
 		window.localStorage.removeItem('token');
-		user_logout();
+		props.user_logout();
+		props.closeSidebar();
+		props.history.push('/');
 	};
-	
+
 	return (
 		<nav className={ styles.container }>
 			<div className={ styles.menuStats }>
@@ -27,8 +30,8 @@ const NavMenu = props => {
 					</div>
 				</div>
 				<div className={ styles.links }>
-					<Link to='/blogs/new' className={ styles.links__link }>New Post</Link>
-					<Link to='/' className={ styles.links__link }>Blogs</Link>
+					<Link to='/blogs/new' className={ styles.links__link } onClick={ props.closeSidebar }>New Post</Link>
+					<Link to='/' className={ styles.links__link } onClick={ props.closeSidebar }>Blogs</Link>
 					{/* <Link to='/users' className={ styles.links__link }>Users</Link> */}
 				</div>
 				<div className={ styles.stats }>
@@ -58,7 +61,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-	user_logout
+	user_logout,
+	closeSidebar
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavMenu));

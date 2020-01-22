@@ -27,16 +27,6 @@ const Header = props => {
 				<div ref={ ref } className={ styles.menu }>
 					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
 				</div>
-				{/* { props.user ? 
-					<React.Fragement>
-						<Filter />
-						<div className={ styles.menu }>
-							<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
-						</div>
-					</React.Fragement>
-					:
-					<button className={ styles.getStarted }>Get Started</button>
-				} */}
 			</div>
 		</header>
 	)

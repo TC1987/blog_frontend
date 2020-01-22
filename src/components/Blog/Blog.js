@@ -239,7 +239,7 @@ const SingleBlog = props => {
 				<p className={ styles.likes__text }>{ blog.likes } <span className={ styles.likes__bold }>likes</span></p>
 			</div>
 
-			<div className={ `${ user && user.id !== blog.author ? styles.actions : styles.none }` }>
+			<div className={ `${ user && user.id !== blog.author.id ? styles.actions : styles.none }` }>
 				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
 				{ user && user.id !== blog.author.id && displayLike(blog) }	
 				{ user && user.id !== blog.author.id && displaySave(blog.id) }
