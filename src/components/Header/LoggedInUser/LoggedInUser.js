@@ -17,10 +17,7 @@ const LoggedInUser = ({ user, user_logout }) => {
 	};
 
 	return user ?
-		<div>
-			<Link to={ `/users/${user.id}` } className={ styles.username }>{ user.name }</Link>
-			{/* <Button label="Logout" onClick={ logout } /> */}
-		</div>
+		<Link to={ `/users/${user.id}` } className={ styles.username }>{ user.name }</Link>
 		:
 		<Burger style={{ fontSize: '8px' }} isOpen={false} />
 };

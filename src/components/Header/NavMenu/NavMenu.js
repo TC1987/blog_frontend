@@ -10,6 +10,12 @@ import styles from './navmenu.module.scss';
 import { user_logout } from '../../../reducers/userReducer';
 
 const NavMenu = props => {
+	const logout = () => {
+		window.localStorage.removeItem('user');
+		window.localStorage.removeItem('token');
+		user_logout();
+	};
+	
 	return (
 		<nav className={ styles.container }>
 			<div className={ styles.menuStats }>
@@ -40,7 +46,7 @@ const NavMenu = props => {
 					</div>
 				</div>
 			</div>
-			<button className={ styles.logout } onClick={ props.user_logout }>Sign Out</button>
+			<button className={ styles.logout } onClick={ logout }>Sign Out</button>
 		</nav>
 	);
 };

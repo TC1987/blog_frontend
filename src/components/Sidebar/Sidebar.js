@@ -14,6 +14,9 @@ const Sidebar = props => {
 
 	// this runs before which closes the sidebar regardless, and then the toggler opens it. that's why always open
 	const handleMouseDown = e => {
+		if (props.burgerRef.current.firstChild === e.target) {
+			return;
+		}
 		if (ref.current && !ref.current.contains(e.target)) {
 			props.closeSidebar();
 		}

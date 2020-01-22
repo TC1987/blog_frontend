@@ -24,8 +24,8 @@ const Header = props => {
 			<div className={ styles.container }>
 				<div className={ styles.logo }><Link to='/' className={ styles.link }>TIL</Link></div>
 				<Filter />
-				<div className={ styles.menu }>
-					<Burger ref={ ref } className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
+				<div ref={ ref } className={ styles.menu }>
+					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
 				</div>
 				{/* { props.user ? 
 					<React.Fragement>
