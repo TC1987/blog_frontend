@@ -4,10 +4,18 @@ export const toggleSidebar = () => {
 	}
 }
 
-export default (state = true, action) => {
+export const closeSidebar = () => {
+	return {
+		type: 'CLOSE_SIDEBAR'
+	}
+}
+
+export default (state = false, action) => {
 	switch (action.type) {
 		case 'TOGGLE_SIDEBAR':
 			return !state;
+		case 'CLOSE_SIDEBAR':
+			return false;
 		default:
 			return state;
 	}

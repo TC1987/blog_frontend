@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './app.module.scss';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
@@ -8,7 +8,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import NotFound from './components/NotFound/NotFound';
 import Users from './components/Users/Users';
 import User from './components/User/User';
-import SingleBlog from './components/SingleBlog/SingleBlog';
+import Blog from './components/Blog/Blog';
 import NewBlog from './components/NewBlog/NewBlog';
 import Register from './components/Register/Register';
 import Header from './components/Header/Header';
@@ -21,6 +21,8 @@ import { blogs_init } from './reducers/blogReducer';
 import { blogs_getAll } from './services/blogs';
 
 const App = props => {
+	const [burgerRef, setBurgerRef] = useState(null);
+
 	useEffect(() => {
 		let user = window.localStorage.getItem('user');
 		// let token = window.localStorage.getItem('token');
@@ -34,17 +36,10 @@ const App = props => {
 		});
 	}, []);
 
-	//
-	//
-	// GREAT SUGGESTION FOR NAMING AND ORGANIZING FILES
-	// Depending on size and complexity, I'd either put all the components in the same file or create a `tab` directory with `index.js` doing all the exports and `list.js`, `list-item.js`, and `panel.js` containing the subcomponent src. What do you think you'll do?
-	//
-	//
-
 	return (
 		<div className={ styles.container }>
 			<BrowserRouter>
-				<Header />
+				<Header setBurgerRef={ setBurgerRef } />
 				<div className={ styles.main }>
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
@@ -54,10 +49,10 @@ const App = props => {
 						<Route path='/login' render={() => props.user ? <Redirect to='/' /> : <Login />} />
 						<Route path='/blogs/new' render={routeProps => props.user ? <NewBlog {...routeProps} /> : <Redirect to='/' />} />
 						<Route path='/users/:id' component={User} />
-						<Route path='/blogs/:id' component={SingleBlog} />
+						<Route path='/blogs/:id' component={Blog} />
 						<Route component={NotFound} />
 					</Switch>
-					<Sidebar />
+					<Sidebar burgerRef={ burgerRef } />
 				</div>
 				<Footer />
 			</BrowserRouter>

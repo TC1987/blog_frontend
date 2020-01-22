@@ -10,8 +10,6 @@ import styles from './navmenu.module.scss';
 import { user_logout } from '../../../reducers/userReducer';
 
 const NavMenu = props => {
-	console.log(props.user);
-
 	return (
 		<nav className={ styles.container }>
 			<div className={ styles.menuStats }>

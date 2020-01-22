@@ -1,0 +1,61 @@
+@import '../../scss/main.scss';
+
+.blog {
+	&__image {
+		width: 100%;
+		display: block;
+		border-radius: $border-radius;
+	}
+
+	&__text {
+		letter-spacing: .6px;
+	}
+
+	&__text > * {
+		margin: 1rem 0;
+	}
+}
+
+.text {
+	&__date {
+		font-size: .7rem;
+	}
+
+	&__titleTime {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+
+	&__title {
+		text-decoration: none;
+		color: inherit;
+		font-size: 1.2rem;
+		font-weight: 700;
+	}
+
+	&__author {
+		font-size: .7rem;
+		letter-spacing: .8px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+}
+
+// .content {
+	// width: 100%;
+	// padding-bottom: 1em;
+// }
+
+.stats {
+	margin-top: 2rem;
+	display: flex;
+	justify-content: space-between;
+
+	&__likes, &__commentCount {
+		padding: .8em 0;
+		text-align: center;
+		width: 50%;
+		background-color: $grey-1;
+	}
+}

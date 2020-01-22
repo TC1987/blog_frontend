@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '@animated-burgers/burger-squeeze/dist/styles.css';
@@ -13,13 +13,19 @@ import { toggleSidebar } from '../../reducers/sidebarReducer';
 import styles from './header.module.scss';
 
 const Header = props => {
+	const ref = useRef();
+
+	useEffect(() => {
+		props.setBurgerRef(ref);
+	}, [])
+
 	return (
 		<header className={ styles.header }>
 			<div className={ styles.container }>
 				<div className={ styles.logo }><Link to='/' className={ styles.link }>TIL</Link></div>
 				<Filter />
 				<div className={ styles.menu }>
-					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
+					<Burger ref={ ref } className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
 				</div>
 				{/* { props.user ? 
 					<React.Fragement>

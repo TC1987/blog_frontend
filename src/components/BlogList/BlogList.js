@@ -6,7 +6,7 @@ import { blogs_getAll } from '../../services/blogs';
 import { blogs_init, blogs_add } from '../../reducers/blogReducer';
 import { message_update } from '../../reducers/messageReducer';
 
-import Blog from '../Blog/Blog';
+import BlogItem from '../BlogItem/BlogItem';
 
 import styles from './bloglist.module.scss';
 
@@ -17,7 +17,7 @@ const blogList = (blogs, filter) => {
 
 	return filteredBlogs.map(blog => (
 		<li key={blog.id} className={ styles.blog }>
-			<Blog blog={blog} />
+			<BlogItem blog={blog} />
 		</li>
 	));
 };

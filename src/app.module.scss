@@ -11,5 +11,5 @@
 .main {
 	width: 90%;
 	margin: auto;
-	min-height: 100%;
+	min-height: calc(100% - #{$margin-top});
 }

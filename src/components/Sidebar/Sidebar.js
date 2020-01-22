@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import NavMenu from '../Header/NavMenu/NavMenu';
 import Statistics from '../Statistics/Statistics';
 
-import { toggleSidebar } from '../../reducers/sidebarReducer';
+import { toggleSidebar, closeSidebar } from '../../reducers/sidebarReducer';
 
 import styles from './sidebar.module.scss';
 
 const Sidebar = props => {
+	const ref = useRef();
+
+	// this runs before which closes the sidebar regardless, and then the toggler opens it. that's why always open
+	const handleMouseDown = e => {
+		if (ref.current && !ref.current.contains(e.target)) {
+			props.closeSidebar();
+		}
+	}
+
+	useEffect(() => {
+		document.addEventListener('mousedown', handleMouseDown);
+		
+		return () => {
+			document.removeEventListener('mousedown', handleMouseDown);
+		}
+	})
+
 	return (
-		<div className={ `${ styles.sidebar } ${ props.isOpen ? styles.show : null } ${ props.user ? styles.reducedWidth : null }`}>
+		<div ref={ ref } className={ `${ styles.sidebar } ${ props.isOpen ? styles.show : null } ${ props.user ? styles.reducedWidth : null }`}>
 			{ props.user ? 
 				<React.Fragment>
 					<NavMenu />
@@ -41,7 +58,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-	toggleSidebar
+	toggleSidebar,
+	closeSidebar
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
