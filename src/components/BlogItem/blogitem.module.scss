@@ -9,10 +9,10 @@
 
 	&__text {
 		letter-spacing: .6px;
-	}
 
-	&__text > * {
-		margin: 1rem 0;
+		& > * {
+			margin: 1.5rem 0;
+		}
 	}
 }
 
@@ -21,17 +21,21 @@
 		font-size: .7rem;
 	}
 
-	&__titleTime {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-	}
+	// &__titleTime {
+	// 	display: flex;
+	// 	justify-content: space-between;
+	// 	align-items: baseline;
+	// }
 
 	&__title {
 		text-decoration: none;
 		color: inherit;
 		font-size: 1.2rem;
 		font-weight: 700;
+	}
+
+	&__content {
+		line-height: 1.5em;
 	}
 
 	&__author {
@@ -43,8 +47,10 @@
 }
 
 // .content {
-	// width: 100%;
-	// padding-bottom: 1em;
+// 	width: 100%;
+// 	& > * {
+// 		padding-bottom: 1em
+// 	}
 // }
 
 .stats {
@@ -57,5 +63,21 @@
 		text-align: center;
 		width: 50%;
 		background-color: $grey-1;
+	}
+
+	&__likes {
+		border-radius: $border-radius 0 0 $border-radius;
+	}
+
+	&__commentCount {
+		border-radius: 0 $border-radius $border-radius 0;
+	}
+}
+
+@media all and (min-width: 860px) {
+	.text {	
+		&__content {
+			line-height: 1.75em;
+		}
 	}
 }

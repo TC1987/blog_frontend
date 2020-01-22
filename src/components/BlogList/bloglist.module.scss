@@ -8,15 +8,3 @@
 	flex-basis: 100%;
 	margin: 1em 0;
 }
-
-@media all and (min-width: 480px) {
-	.blog {
-		flex-basis: 50%;
-	}
-}
-
-@media all and (min-width: 840px) {
-	.blog {
-		flex-basis: 33.3%;
-	}
-}

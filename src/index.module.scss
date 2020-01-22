@@ -1,3 +1,5 @@
+@import './scss/main.scss';
+
 *,
 *::before,
 *::after {
@@ -13,6 +15,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+//   position: relative;
+//   background-color: $grey-2;
+//   color: $white-1;
+//   width: 100%;
+//   min-height: 100vh;
 }
 
 code {

@@ -65,7 +65,7 @@ const Blog = props => {
 				</div>
 			</div>
 			<div className={ styles.stats }>
-				<p className={ styles.stats__likes }>Like {likes}</p>
+				<p className={ styles.stats__likes }>Likes {likes}</p>
 				<p className={ styles.stats__commentCount }>Comments {comments.length}</p>
 				{/* <button onClick={() => likeBlog(props.blog)}>Like</button> */}
 			</div>

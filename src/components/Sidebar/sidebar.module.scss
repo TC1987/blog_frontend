@@ -1,7 +1,7 @@
 @import '../../scss/main.scss';
 
 .sidebar {
-	background-color: $grey-2;
+	background-color: $grey-1;
 	transform: translateX(100%);
 	position: fixed;
 	top: $margin-top;
@@ -60,7 +60,12 @@
 
 .text {
 	flex: 1;
-	background-image: url(../../images/abstract.jpg);
+	background-image: url(../../images/leaves.jpg);
+	// background-image: linear-gradient(
+	// 	to right bottom, 
+	// 	rgba($green-3, 0.8), 
+	// 	rgba($green-2, 0.8)),
+	// 	url(../../images/leaves.jpg);
 	background-size: cover;
 	border-radius: $border-radius;
 	color: $white-1;
@@ -118,3 +123,8 @@
 	}
 }
 
+@media all and (min-width: 860px) {
+	.sidebar {
+		display: none;
+	}
+}

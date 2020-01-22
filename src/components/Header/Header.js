@@ -27,6 +27,12 @@ const Header = props => {
 				<div ref={ ref } className={ styles.menu }>
 					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
 				</div>
+
+				<nav className={ styles.nav }>
+					<Link to={'/login'} className={ styles.button__link }>Login</Link>
+					<Link to={'/register'} className={ styles.button__link }>Register</Link>
+				</nav>
+				
 			</div>
 		</header>
 	)

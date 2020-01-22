@@ -41,6 +41,10 @@
 		text-transform: uppercase;
 		color: $grey-4;
 	}
+
+	&__content {
+		line-height: 2.2em;
+	}
 }
 
 // .heart {

@@ -13,3 +13,11 @@
 	margin: auto;
 	min-height: calc(100% - #{$margin-top});
 }
+
+@media all and (min-width: 860px) {
+	.main {
+		width: 50%;
+		max-width: calc(100% - 30% * 1px);
+		padding: .5em 0;
+	}
+}
