@@ -1,12 +1,12 @@
 @import '../../scss/main.scss';
 
 .sidebar {
-	background-color: $grey-1;
+	background-color: $grey-2;
 	transform: translateX(100%);
 	position: fixed;
 	top: $margin-top;
 	right: 0;
-	height: calc(100vh - #{$margin-top});
+	height: calc(100% - #{ $margin-top });
 	transition: all .2s ease-in;
 	z-index: 100;
 	width: 100%;
@@ -104,6 +104,7 @@
 	font-weight: 700;
 	letter-spacing: .5px;
 	border-radius: $border-radius;
+	cursor: pointer;
 
 	&:not(:last-child) {
 		margin-bottom: 1em;

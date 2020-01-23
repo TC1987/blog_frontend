@@ -18,6 +18,7 @@ const NewBlog = props => {
 	const [image, setImage] = useState(null);
 
 	const fileChange = e => {
+		console.log(e.target.files[0]);
 		setImage(e.target.files[0]);
 	}
 
@@ -40,12 +41,6 @@ const NewBlog = props => {
 			props.message_update(`New Blog Created: ${titleValue}`);
 			setTimeout(() => props.message_update(null), 3000);
 		} catch (err) {
-			// if (invalidorexpiredtoken) {
-			window.localStorage.removeItem('user');
-			window.localStorage.removeItem('token');
-			props.user_logout();
-			// }
-
 			props.message_update(`Error: ${err}`);
 			setTimeout(() => props.message_update(null), 3000);
 		}
@@ -60,8 +55,8 @@ const NewBlog = props => {
 			<form onSubmit={handleSubmit} className={ styles.form }>
 				<input {...title.attributes}></input>
 				<textarea {...content.attributes} className={ styles.form__content }></textarea>
-				<label htmlFor="file_upload" className={ styles.form__file__label }>Choose File</label>
-				<input type="file" name="image" id="file_upload" onChange={fileChange} className={ styles.form__file }></input>
+				<label htmlFor="file_upload" className={ styles.form__file__label }>{ image ? image.name : 'Choose File' }</label>
+				<input type="file" name="image" id="file_upload" onChange={ fileChange } className={ styles.form__file }></input>
 				<button type="submit" className={ styles.form__button } onClick={ handleSubmit }>Create Post</button>
 			</form >
 		</div>

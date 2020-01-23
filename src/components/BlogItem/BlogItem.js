@@ -56,13 +56,11 @@ const Blog = props => {
 	return (
 		<div className={ styles.blog }>
 			<div className={ styles.content }>
-				{ pictureUrl && <Link to={`/blogs/${id}`}><img src={ pictureUrl } alt="image" className={ styles.blog__image }></img></Link> }
-				<div className={ styles.blog__text }>
-					<p className={ styles.text__date }>{ formatDate(updatedAt) }</p>
-					<p><Link to={`/blogs/${id}`} className={ styles.text__title }>{title}</Link></p>
-					<p className={ styles.text__content }>{formatContent(content)}</p>
-					<p className={ styles.text__author }>by {author.name}</p>
-				</div>
+				{ pictureUrl && <Link to={`/blogs/${id}`}><img src={ pictureUrl } alt="image" className={ styles.content__image }></img></Link> }
+				<p className={ styles.text__date }>{ formatDate(updatedAt) }</p>
+				<p><Link to={`/blogs/${id}`} className={ styles.text__title }>{title}</Link></p>
+				<p className={ styles.text__content }>{formatContent(content)}</p>
+				<p className={ styles.text__author }>by {author.name}</p>
 			</div>
 			<div className={ styles.stats }>
 				<p className={ styles.stats__likes }>Likes {likes}</p>

@@ -37,10 +37,10 @@ const App = props => {
 	}, []);
 
 	return (
-		<div className={ styles.container }>
-			<BrowserRouter>
+		<BrowserRouter>
+			<div className={ styles.container }>
 				<Header setBurgerRef={ setBurgerRef } />
-				<div className={ styles.main }>
+				<div className={ `${ styles.main } ${ props.isOpen ? styles.fixedPosition : '' }` }>
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
 						<Route exact path='/users' component={Users} />
@@ -55,14 +55,15 @@ const App = props => {
 					<Sidebar burgerRef={ burgerRef } />
 				</div>
 				<Footer />
-			</BrowserRouter>
-		</div>
+			</div>
+		</BrowserRouter>
 	);
 };
 
 const mapStateToProps = state => {
 	return {
-		user: state.user
+		user: state.user,
+		isOpen: state.isSidebarOpen
 	};
 };
 
