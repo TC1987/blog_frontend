@@ -1,69 +1,51 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import '@animated-burgers/burger-squeeze/dist/styles.css';
+import Burger from '@animated-burgers/burger-squeeze';
 
-import NavMenu from '../NavMenu/NavMenu';
-import LoggedInUser from '../LoggedInUser/LoggedInUser';
+import NavMenu from './NavMenu/NavMenu';
+import LoggedInUser from './LoggedInUser/LoggedInUser';
+import Filter from './Filter/Filter';
 
-const Wrapper = styled.header`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid #333;
-	padding: 3rem 0;
+import { toggleSidebar } from '../../reducers/sidebarReducer';
 
-	& * {
-		&:not(:last-child) {
-			margin-right: 1rem;
-		}
-	}
-`
+import styles from './header.module.scss';
 
-const HeaderLeft = styled.div`
-	display: flex;
-	align-items: center;
-`
+const Header = props => {
+	const ref = useRef();
 
-const HeaderRight = styled.div`
-	display: flex;
-	align-items: center;
-`
+	useEffect(() => {
+		props.setBurgerRef(ref);
+	}, [])
 
-const Name = styled.span`
-	font-size: 3rem;
-	font-weight: 700;
-	text-transform: uppercase;
-`
-
-const SearchBox = styled.input`
-	flex: 1;
-	padding: 1rem 2rem;
-	font-size: 2rem;
-`
-
-const Logo = styled.div`
-	width: 50px;
-	height: 50px;
-	background-color: red;
-`
-
-const Header = props => (
-	<Wrapper>
-		<HeaderLeft>
-			<Logo />
-			<Name>Schmedium</Name>
-		</HeaderLeft>
-		<SearchBox></SearchBox>
-		{ props.user && <HeaderRight>
-			<LoggedInUser />
-		</HeaderRight> }
-	</Wrapper>
-)
+	return (
+		<header className={ styles.header }>
+			<div className={ styles.container }>
+				<div className={ styles.logo }><Link to='/' className={ styles.link }>TIL</Link></div>
+				<Filter />
+				<div ref={ ref } className={ props.user ? styles.menu : styles.menu__responsive }>
+					<Burger className={ styles.menu__burger } isOpen={ props.isOpen } onClick={ props.toggleSidebar } />
+				</div>
+				<nav className={ props.user ? styles.hide : styles.nav }>
+					<Link to={ '/login' } className={ styles.button__link }>Login</Link>
+					<Link to={ '/register' } className={ styles.button__link }>Register</Link>
+				</nav>
+				
+			</div>
+		</header>
+	)
+}
 
 const mapStateToProps = state => {
 	return {
+		isOpen: state.isSidebarOpen,
 		user: state.user
 	}
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = {
+	toggleSidebar
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

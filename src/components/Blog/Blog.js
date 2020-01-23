@@ -1,87 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { blogs_service_update, blogs_service_delete } from '../../services/blogs';
+import { blogs_service_getOne, blogs_service_update, blogs_service_delete } from '../../services/blogs';
+import { users_update } from '../../services/users';
+
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
+import { user_update } from '../../reducers/userReducer';
 
-const Wrapper = styled.div`
-	padding: 1rem;
-	background-color: red;
-	border: 1px solid black;
-	flex: 1 1 33%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 44rem;
-`
+import CommentList from '../CommentList/CommentList';
 
-const TextWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	flex: 1;
-	margin-top: 1rem;
-`
+import styles from './blog.module.scss';
 
-const Text = styled.span`
-	text-decoration: none;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-`
+import bolt from '../../images/bolt2.svg';
 
-const Image = styled.div`
-	min-height: 200px;
-	background-color: black;
-	background-image: url();
-`
+const SingleBlog = props => {
+	const [blog, setBlog] = useState(null);
+	const [edit, setEdit] = useState(false);
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
 
-const ButtonsWrapper = styled.div`
-	display: flex;
-	justify-content: space-evenly;
+	const { user, user_update } = props;
 
-	& > * {
-		background-color: #ccc;
-		border: 1px solid black;
-
-		&:hover {
-			cursor: pointer;
-		}
-	}
-`
-
-const ContentWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	& > * {
-		margin: .25rem 0;
-	}
-`
-
-const Content = styled.span`
-`;
-
-const Author = styled.span`
-	font-size: 1.2rem;
-	text-transform: uppercase;
-`;
-
-const ReadTime = styled.span`
-	font-size: 1rem;
-	text-transform: uppercase;
-`;
-
-const StyledLink = styled(Link)`
-	text-decoration: none;
-	font-size: 2rem;
-`
-
-const Blog = props => {
-	const { id, title, content, author, likes, tags, readTime, updatedAt } = props.blog;
-	const { user } = props;
+	useEffect(() => {
+		blogs_service_getOne(props.match.params.id)
+			.then(blog => {
+				setBlog(blog);
+				blogs_service_update({
+					...blog,
+					views: blog.views + 1
+				});
+				return () => {
+					console.log('Component has been unmounted');
+				}
+			});
+	}, []);
 
 	const handleEdit = id => {
 		
@@ -96,53 +50,228 @@ const Blog = props => {
 		}
 	};
 
-	const likeBlog = async blog => {
+	const editBlogLike = async (blog, type) => {
 		let updatedBlog = {
 			...blog,
-			likes: blog.likes + 1,
 		};
 
-		updatedBlog = await blogs_service_update(updatedBlog);
-		props.blogs_update(updatedBlog);
-	}; 
+		if (type === 'INCREMENT') {
+			updatedBlog.likes = updatedBlog.likes + 1;
+		} else {
+			updatedBlog.likes = updatedBlog.likes - 1;
+		}
 
-	return (
-		<Wrapper>
-			<Image></Image>
-			<TextWrapper>
-				<ContentWrapper>
-					<Text>
-						<StyledLink to={ `/blogs/${id}` }>{ title }</StyledLink>
-						<ReadTime>{ readTime } read</ReadTime>
-					</Text>
-					<Author>{ author.name }</Author>
-					<Content>{ content }</Content>
-				</ContentWrapper>
-				<ButtonsWrapper>
-					<div onClick={ () => likeBlog(props.blog) }>{ likes } Like</div>
-					{  user && author.id === user.id ?
-						<>
-							<div onClick={ () => handleEdit(id) }>Edit</div>
-							<div onClick={ () => handleDelete(id) }>Delete</div>
-						</>
-						:
-						null
-					}
-				</ButtonsWrapper>
-			</TextWrapper>
-		</Wrapper>
-	);
+		updatedBlog = await blogs_service_update(updatedBlog);
+		setBlog(updatedBlog);
+	};
+
+	const updateUserProperty = async updateObject => {
+		const updatedUser = await users_update(updateObject);
+		user_update(updatedUser);
+		window.localStorage.setItem('user', JSON.stringify(updatedUser));
+	}
+
+	const { addUser, removeUser, addBlog, removeBlog, likeBlog, unlikeBlog } = {
+		addUser: userId => ({
+			op: '$push',
+			field: 'followedUsers',
+			value: userId
+		}),
+		removeUser: userId => ({
+			op: '$pull',
+			field: 'followedUsers',
+			value: userId
+		}),
+		addBlog: blogId => ({
+			op: '$push',
+			field: 'savedBlogs',
+			value: blogId
+		}),
+		removeBlog: blogId => ({
+			op: '$pull',
+			field: 'savedBlogs',
+			value: blogId
+		}),
+		likeBlog: blogId => ({
+			op: '$push',
+			field: 'likedBlogs',
+			value: blogId
+		}),
+		unlikeBlog: blogId => ({
+			op: '$pull',
+			field: 'likedBlogs',
+			value: blogId
+		})
+	}
+
+	const displayFollow = userId => {
+		if (!user) {
+			return;
+		}
+
+		const authorIndex = user.followedUsers.findIndex(id => id === userId);
+
+		if (authorIndex === -1) {
+			return (
+				<button
+					onClick={ () => updateUserProperty(addUser(userId)) }
+					className={ styles.actions__follow }
+				>
+					Follow
+				</button>
+			)
+		}
+		
+		return (
+			<button
+				onClick={ () => updateUserProperty(removeUser(userId)) }
+				className={ styles.actions__follow }
+			>
+				Unfollow
+			</button>
+		)
+	}
+
+	const displaySave = (blogId) => {
+		if (!user) {
+			return;
+		}
+
+		const blogIndex = user.savedBlogs.findIndex(id => id === blogId);
+
+		if (blogIndex === -1) {
+			return (
+				<button
+					onClick={ () => updateUserProperty(addBlog(blogId)) } 
+					className={ styles.actions__save }
+				>
+					Save
+				</button>
+			)
+		}
+
+		return (
+			<button
+				onClick={ () => updateUserProperty(removeBlog(blogId)) }
+				className={ styles.actions__save }	
+			>
+				Unsave
+			</button>
+		)
+	}
+
+	const displayLike = blog => {
+		if (!user) {
+			return;
+		}
+
+		const blogIndex = user.likedBlogs.findIndex(id => id === blog.id);
+
+		if (blogIndex === -1) {
+			return (
+				<button onClick={ () => {
+					updateUserProperty(likeBlog(blog.id));
+					editBlogLike(blog, 'INCREMENT');
+				} } className={ styles.actions__like }>
+					Like
+				</button>
+			)
+		}
+
+		return (
+			<button onClick={ () => {
+				updateUserProperty(unlikeBlog(blog.id));
+				editBlogLike(blog, 'DECREMENT');
+			} } className={ styles.actions__like }>
+				Unlike
+			</button>
+		)
+	}
+
+	// const displayEdit = () => {
+	// 	if (!edit) {
+	// 		return (
+	// 			<React.Fragment>
+	// 				<p>{ blog.title }</p>
+	// 				<p>{ blog.content }</p>
+	// 			</React.Fragment>
+	// 		)
+	// 	}
+
+	// 	return (
+	// 		<React.Fragment>
+	// 			<input type="text" value={ title } onChange={ e => setTitle(e.target.value) } placeholder="Title" />
+	// 			<textarea value={ content } onChange={ e => setContent(e.target.value) } placeholder="Content" />
+	// 			<button>Save Changes</button>
+	// 		</React.Fragment>
+	// 	)
+	// }
+
+	const formatDate = timestamp => {
+		if (!timestamp) {
+			return;
+		}
+
+		const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+		const date = new Date(timestamp);
+
+		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
+	}
+
+	return blog &&
+		<div className={ styles.container }>
+			<div className={ styles.content }>
+				{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.content__image }></img> }
+				<p className={ styles.content__date }>{ formatDate(blog.updatedAt) }</p>
+				<h1 className={ styles.content__title }>{ blog.title }</h1>
+				<div className={ styles.content__authorTime }>
+					<p className={ styles.content__authorTime__author }>By { blog.author.name }</p>
+					<p className={ styles.content__authorTime__time }>{ blog.readTime } min read</p>
+				</div>
+				<p className={ styles.content__content }>{ blog.content }</p>
+			</div>
+			
+			{/* <div className={ styles.titleContent }>
+				{ displayEdit() }
+			</div> */}
+
+			<div className={ styles.likes }>
+				<p className={ styles.likes__text }>{ blog.likes } <span className={ styles.likes__bold }>likes</span></p>
+			</div>
+
+			<div className={ `${ user && user.id !== blog.author.id ? styles.actions : styles.none }` }>
+				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
+				{ user && user.id !== blog.author.id && displayLike(blog) }	
+				{ user && user.id !== blog.author.id && displaySave(blog.id) }
+			</div>
+
+			{/* { user && blog.author.id === user.id &&
+				<React.Fragment>
+					<button onClick={ () => {
+						setTitle(blog.title);
+						setContent(blog.content);
+						setEdit(edit => !edit)
+					}}>Edit</button>
+					<button onClick={ () => handleDelete(blog.id) }>Delete</button>
+				</React.Fragment>
+			} */}
+			{/* <div className={ styles.heart }></div> */}
+			<CommentList id={ blog.id } />
+		</div>
 };
 
 const mapStateToProps = state => {
 	return {
-		user: state.user
+		user: state.user,
+		blogs: state.blogs
 	};
 };
 
 const mapDispatchToProps = {
 	blogs_update,
-	blogs_delete
+	blogs_delete,
+	user_update
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Blog);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleBlog);

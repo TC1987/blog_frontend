@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { users_getUsers } from '../../services/users';
 
+import styles from './users.module.scss';
+
 const Users = () => {
 	const [users, setUsers] = useState([]);
 
@@ -24,7 +26,7 @@ const Users = () => {
 	};
 
 	return (
-		<>
+		<div className={ styles.container }>
 			<h1>Users</h1>
 			<table>
 				<thead>
@@ -37,7 +39,7 @@ const Users = () => {
 					{ usersList() }
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
 

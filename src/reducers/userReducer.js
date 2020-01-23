@@ -5,6 +5,13 @@ export const user_login = user => {
 	};
 };
 
+export const user_update = updatedUser => {
+	return {
+		type: 'USER_UPDATE',
+		payload: updatedUser
+	}
+}
+
 export const user_logout = () => {
 	return {
 		type: 'USER_LOGOUT'
@@ -14,6 +21,7 @@ export const user_logout = () => {
 const userReducer = (user = null, action) => {
 	switch (action.type) {
 		case 'USER_LOGIN':
+		case 'USER_UPDATE':
 			return action.payload;
 		case 'USER_LOGOUT':
 			return null;

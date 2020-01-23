@@ -1,57 +1,81 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-const Wrapper = styled.div`
-	width: 40%;
-	margin: 4rem auto 0;
-	text-align: center;
-`
+import { blogs_create } from '../../services/blogs';
 
-const MainHeader = styled.h1`
+import { blogs_add } from '../../reducers/blogReducer';
+import { message_update } from '../../reducers/messageReducer';
 
-`
+import useField from '../../hooks/useField';
 
-const Submit = styled.input`
-	height: 40px;
-	width: 100%;
-	border: none;
-	background-color: red;
-`
+import { user_logout } from '../../reducers/userReducer';
 
-const Input = styled.input`
-	display: block;
-	width: 100%;
-	border: none;
-	background-color: transparent;
-	margin: 2rem auto;	
-	padding: 1rem;
-	outline: none;
-	font-size: 1.6rem;
-`
+import styles from './newblog.module.scss';
 
-const TitleInput = styled(Input)`
-	height: 30px;
-	border-bottom: 1px solid black;
-`
+const NewBlog = props => {
+	const title = useField('text', 'Title');
+	const content = useField(null, 'Content');
+	const [image, setImage] = useState(null);
 
-const ContentInput = styled(Input)`
-	border: 1px solid black;
-`
+	const fileChange = e => {
+		setImage(e.target.files[0]);
+	}
 
-const NewBlog = () => {
+	const handleSubmit = async e => {
+		e.preventDefault();
+
+		const formData = new FormData();
+		formData.set('title', title.attributes.value);
+		formData.set('content', content.attributes.value);
+		formData.set('image', image);
+		formData.set('author', props.user.id)
+
+		const titleValue = title.attributes.value;
+		const contentValue = content.attributes.value;
+
+		try {
+			const createdBlog = await blogs_create(formData);
+
+			props.blogs_add(createdBlog);
+			props.message_update(`New Blog Created: ${titleValue}`);
+			setTimeout(() => props.message_update(null), 3000);
+		} catch (err) {
+			// if (invalidorexpiredtoken) {
+			window.localStorage.removeItem('user');
+			window.localStorage.removeItem('token');
+			props.user_logout();
+			// }
+
+			props.message_update(`Error: ${err}`);
+			setTimeout(() => props.message_update(null), 3000);
+		}
+
+		title.reset();
+		content.reset();
+		props.history.push('/');
+	};
+
 	return (
-		<Wrapper>
-			<MainHeader>
-				Create New Blog
-			</MainHeader>
-			<form action="/" method="POST">
-				<TitleInput type="text" placeholder="Title"></TitleInput>
-				<ContentInput type="textarea" placeholder="Content" rows="1"></ContentInput>
-				<textarea rows="20"></textarea>
-				<Submit type="submit" value="Create Blog"></Submit>
-			</form>
-		</Wrapper>
-	)
-}
+		<div className={ styles.container }>
+			<form onSubmit={handleSubmit} className={ styles.form }>
+				<input {...title.attributes}></input>
+				<textarea {...content.attributes} className={ styles.form__content }></textarea>
+				<label htmlFor="file_upload" className={ styles.form__file__label }>Choose File</label>
+				<input type="file" name="image" id="file_upload" onChange={fileChange} className={ styles.form__file }></input>
+				<button type="submit" className={ styles.form__button } onClick={ handleSubmit }>Create Post</button>
+			</form >
+		</div>
+	);
+};
 
-export default NewBlog;
+const mapStateToProps = state => ({
+	user: state.user
+});
+
+const mapDispatchToProps = {
+	blogs_add,
+	message_update,
+	user_logout
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewBlog);
