@@ -206,7 +206,6 @@ const SingleBlog = props => {
 	}
 
 	const displayNotAuthorActions = _ => {
-		console.log('asd');
 		return (
 			<div className={ styles.actions } >
 				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }

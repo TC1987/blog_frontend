@@ -40,7 +40,7 @@ const BlogEdit = props => {
 			props.blogs_update(updatedBlog);
 			props.message_update(`${ previousTitle } updated to ${ title }`);
 			setTimeout(() => props.message_update(null), 3000);
-			props.history.push('/');
+			props.history.push(`/blogs/${ props.match.params.id }`);
 		} catch (err) {
 			console.log(err.message);
 			props.message_update(err);
