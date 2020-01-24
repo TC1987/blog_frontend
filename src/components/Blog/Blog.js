@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { blogs_service_getOne, blogs_service_update, blogs_service_delete } from '../../services/blogs';
 import { users_update } from '../../services/users';
 
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
 import { user_update } from '../../reducers/userReducer';
+import { message_update } from '../../reducers/messageReducer';
 
 import CommentList from '../CommentList/CommentList';
 
@@ -27,7 +27,7 @@ const SingleBlog = props => {
 		blogs_service_getOne(props.match.params.id)
 			.then(blog => {
 				setBlog(blog);
-				blogs_service_update({
+				blogs_service_update(blog.id, {
 					...blog,
 					views: blog.views + 1
 				});
@@ -45,8 +45,13 @@ const SingleBlog = props => {
 		try {
 			const deletedBlog = await blogs_service_delete(id);
 			props.blogs_delete(deletedBlog.id);
+			props.message_update(`${ blog.title } has been deleted.`);
+			setTimeout(() => props.message_update(null), 3000);
+			props.history.push('/');
 		} catch (err) {
 			console.log(err);
+			props.message_update(`There was an error deleting the blog.`);
+			setTimeout(() => props.message_update(null), 3000);
 		}
 	};
 
@@ -61,7 +66,7 @@ const SingleBlog = props => {
 			updatedBlog.likes = updatedBlog.likes - 1;
 		}
 
-		updatedBlog = await blogs_service_update(updatedBlog);
+		updatedBlog = await blogs_service_update(blog.id, updatedBlog);
 		setBlog(updatedBlog);
 	};
 
@@ -188,25 +193,6 @@ const SingleBlog = props => {
 		)
 	}
 
-	// const displayEdit = () => {
-	// 	if (!edit) {
-	// 		return (
-	// 			<React.Fragment>
-	// 				<p>{ blog.title }</p>
-	// 				<p>{ blog.content }</p>
-	// 			</React.Fragment>
-	// 		)
-	// 	}
-
-	// 	return (
-	// 		<React.Fragment>
-	// 			<input type="text" value={ title } onChange={ e => setTitle(e.target.value) } placeholder="Title" />
-	// 			<textarea value={ content } onChange={ e => setContent(e.target.value) } placeholder="Content" />
-	// 			<button>Save Changes</button>
-	// 		</React.Fragment>
-	// 	)
-	// }
-
 	const formatDate = timestamp => {
 		if (!timestamp) {
 			return;
@@ -218,6 +204,28 @@ const SingleBlog = props => {
 
 		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 	}
+
+	const displayNotAuthorActions = _ => {
+		console.log('asd');
+		return (
+			<div className={ styles.actions } >
+				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
+				{ user && user.id !== blog.author.id && displayLike(blog) }	
+				{ user && user.id !== blog.author.id && displaySave(blog.id) }
+			</div>
+		)
+	}
+
+	const displayAuthorActions = _ => (
+		<div className={ `${ user && user.id === blog.author.id ? styles.actions : styles.none }` }>
+			<button onClick={ () => props.history.push(`/blogs/${ blog.id }/edit`) } className={ styles.actions__edit }>
+				Edit
+			</button>
+			<button onClick={ () => handleDelete(blog.id) } className={ styles.actions__delete }>
+				Delete
+			</button>
+		</div>
+	)
 
 	return blog &&
 		<div className={ styles.container }>
@@ -231,20 +239,11 @@ const SingleBlog = props => {
 				</div>
 				<p className={ styles.content__content }>{ blog.content }</p>
 			</div>
-			
-			{/* <div className={ styles.titleContent }>
-				{ displayEdit() }
-			</div> */}
-
 			<div className={ styles.likes }>
 				<p className={ styles.likes__text }>{ blog.likes } <span className={ styles.likes__bold }>likes</span></p>
 			</div>
-
-			<div className={ `${ user && user.id !== blog.author.id ? styles.actions : styles.none }` }>
-				{ user && user.id !== blog.author.id && displayFollow(blog.author.id) }
-				{ user && user.id !== blog.author.id && displayLike(blog) }	
-				{ user && user.id !== blog.author.id && displaySave(blog.id) }
-			</div>
+			{ user && user.id !== blog.author.id && displayNotAuthorActions() }
+			{ user && user.id === blog.author.id && displayAuthorActions() }
 
 			{/* { user && blog.author.id === user.id &&
 				<React.Fragment>
@@ -257,6 +256,7 @@ const SingleBlog = props => {
 				</React.Fragment>
 			} */}
 			{/* <div className={ styles.heart }></div> */}
+
 			<CommentList id={ blog.id } />
 		</div>
 };
@@ -271,7 +271,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
 	blogs_update,
 	blogs_delete,
-	user_update
+	user_update,
+	message_update
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleBlog);

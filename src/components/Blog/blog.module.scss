@@ -91,7 +91,9 @@
 
 	&__follow,
 	&__save,
-	&__like {
+	&__like,
+	&__edit,
+	&__delete {
 		color: $white-1;
 		text-transform: uppercase;
 		letter-spacing: .5px;
@@ -100,9 +102,11 @@
 		padding: 1.5em 1em;
 		background-color: transparent;
 		outline: none;
+		cursor: pointer;
 	}
 
-	&__follow {
+	&__follow,
+	&__edit {
 		border-radius: $border-radius 0 0 $border-radius;
 		border: 1px solid $white-1;
 	}
@@ -111,7 +115,8 @@
 		border: 1px solid $white-1;
 	}
 
-	&__save {
+	&__save,
+	&__delete {
 		border-radius: 0 $border-radius $border-radius 0;
 		border: 1px solid $white-1;
 	}

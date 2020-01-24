@@ -8,8 +8,6 @@ import { message_update } from '../../reducers/messageReducer';
 
 import useField from '../../hooks/useField';
 
-import { user_logout } from '../../reducers/userReducer';
-
 import styles from './newblog.module.scss';
 
 const NewBlog = props => {
@@ -37,21 +35,24 @@ const NewBlog = props => {
 		try {
 			const createdBlog = await blogs_create(formData);
 
+			
 			props.blogs_add(createdBlog);
 			props.message_update(`New Blog Created: ${titleValue}`);
 			setTimeout(() => props.message_update(null), 3000);
+			title.reset();
+			content.reset();
+			props.history.push('/');
 		} catch (err) {
-			props.message_update(`Error: ${err}`);
+			console.log(err);
+			props.message_update(err);
+			// props.message_update(`Error: ${err}`);
 			setTimeout(() => props.message_update(null), 3000);
 		}
-
-		title.reset();
-		content.reset();
-		props.history.push('/');
 	};
 
 	return (
 		<div className={ styles.container }>
+			{ props.message && <p className={ styles.message }>{ props.message }</p> }
 			<form onSubmit={handleSubmit} className={ styles.form }>
 				<input {...title.attributes}></input>
 				<textarea {...content.attributes} className={ styles.form__content }></textarea>
@@ -64,13 +65,13 @@ const NewBlog = props => {
 };
 
 const mapStateToProps = state => ({
-	user: state.user
+	user: state.user,
+	message: state.message
 });
 
 const mapDispatchToProps = {
 	blogs_add,
-	message_update,
-	user_logout
+	message_update
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewBlog);

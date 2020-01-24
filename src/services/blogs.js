@@ -26,7 +26,7 @@ export const blogs_create = async blog => {
 			Authorization: `Bearer ${window.localStorage.getItem('token')}`
 		}
 	};
-	
+
 	try {
 		const response = await axios.post(baseUrl, blog, options);
 		return response.data;
@@ -35,14 +35,20 @@ export const blogs_create = async blog => {
 	}
 };
 
-export const blogs_service_update = async blog => {
-	const url = `${baseUrl}/${blog.id}`;
-	
+export const blogs_service_update = async (blogId, blog) => {
+	const url = `${baseUrl}/${blogId}`;
+
+	const options = {
+		headers: {
+			Authorization: `Bearer ${window.localStorage.getItem('token')}`
+		}
+	};
+
 	try {
-		const response = await axios.put(url, blog);
+		const response = await axios.put(url, blog, options);
 		return response.data;
 	} catch (err) {
-		throw err.message;
+		throw err.response.data.error;
 	}
 };
 

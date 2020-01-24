@@ -9,6 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import Users from './components/Users/Users';
 import User from './components/User/User';
 import Blog from './components/Blog/Blog';
+import BlogEdit from './components/BlogEdit/BlogEdit';
 import NewBlog from './components/NewBlog/NewBlog';
 import Register from './components/Register/Register';
 import Header from './components/Header/Header';
@@ -49,6 +50,7 @@ const App = props => {
 						<Route path='/login' render={() => props.user ? <Redirect to='/' /> : <Login />} />
 						<Route path='/blogs/new' render={routeProps => props.user ? <NewBlog {...routeProps} /> : <Redirect to='/' />} />
 						<Route path='/users/:id' component={User} />
+						<Route exact path='/blogs/:id/edit' component={BlogEdit} />
 						<Route path='/blogs/:id' component={Blog} />
 						<Route component={NotFound} />
 					</Switch>
