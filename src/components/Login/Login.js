@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -12,12 +12,35 @@ import styles from './login.module.scss';
 
 import abstractImg from '../../images/multi-color.jpg';
 
+const EMAIL_LENGTH = 5;
+const PASSWORD_LENGTH = 5;
+
 const Login = props => {
 	const email = useField('text', 'Email');
 	const password = useField('password', 'Password');
+	const [emailError, setEmailError] = useState('');
+	const [passwordError, setPasswordError] = useState('');
 
 	const handleSubmit = async e => {
 		e.preventDefault();
+
+		let hasErrors = false;
+
+		if (email.attributes.value.length < EMAIL_LENGTH) {
+			setEmailError('Email must be at least 5 characters.');
+			hasErrors = true;
+		}
+
+		if (password.attributes.value.length < PASSWORD_LENGTH) {
+			setPasswordError('Password must be at least 5 characters.');
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			setTimeout(() => setEmailError(''), 4000);
+			setTimeout(() => setPasswordError(''), 4000);
+			return;
+		}
 
 		try {
 			const { user, token } = await login({
@@ -42,6 +65,8 @@ const Login = props => {
 			<form onSubmit={ handleSubmit } className={ styles.form }>
 				<input { ...email.attributes } className={ styles.form__field }></input>
 				<input { ...password.attributes } className={ styles.form__field }></input>
+				{ emailError && <p className={ styles.validationError }>{ emailError }</p>}
+				{ passwordError && <p className={ styles.validationError }>{ passwordError }</p>}
 				<button type="submit" value="Login" className={ `${styles.form__button} ${styles.form__button__login}` }>Login</button>
 			</form>
 			<p>Don't have an account? <span className={ styles.bold }><Link to={'/register'} className={ styles.link }>Register</Link></span></p>

@@ -10,18 +10,42 @@ import useField from '../../hooks/useField';
 
 import styles from './newblog.module.scss';
 
+const TITLE_LENGTH = 3;
+const CONTENT_LENGTH = 3;
+
 const NewBlog = props => {
 	const title = useField('text', 'Title');
 	const content = useField(null, 'Content');
 	const [image, setImage] = useState(null);
+	const [titleError, setTitleError] = useState('');
+	const [contentError, setContentError] = useState('');
 
 	const fileChange = e => {
-		console.log(e.target.files[0]);
 		setImage(e.target.files[0]);
 	}
 
 	const handleSubmit = async e => {
+		console.log('asd')
+
 		e.preventDefault();
+
+		let hasErrors = false;
+
+		if (title.attributes.value.length < TITLE_LENGTH) {
+			setTitleError('Title must be at least 3 characters.');
+			hasErrors = true;
+		}
+
+		if (content.attributes.value.length < CONTENT_LENGTH) {
+			setContentError('Content must be at least 3 characters.');
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			setTimeout(() => setTitleError(''), 4000);
+			setTimeout(() => setContentError(''), 4000);
+			return;
+		}
 
 		const formData = new FormData();
 		formData.set('title', title.attributes.value);
@@ -55,7 +79,9 @@ const NewBlog = props => {
 			{ props.message && <p className={ styles.message }>{ props.message }</p> }
 			<form onSubmit={handleSubmit} className={ styles.form }>
 				<input {...title.attributes}></input>
+				{ titleError && <p className={ styles.validationError }>{ titleError }</p>}
 				<textarea {...content.attributes} className={ styles.form__content }></textarea>
+				{ contentError && <p className={ styles.validationError }>{ contentError }</p>}
 				<label htmlFor="file_upload" className={ styles.form__file__label }>{ image ? image.name : 'Choose File' }</label>
 				<input type="file" name="image" id="file_upload" onChange={ fileChange } className={ styles.form__file }></input>
 				<button type="submit" className={ styles.form__button } onClick={ handleSubmit }>Create Post</button>

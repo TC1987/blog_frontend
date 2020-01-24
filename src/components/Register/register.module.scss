@@ -63,3 +63,12 @@
 	color: $white-1;
 	text-decoration: none;
 }
+
+.validationError {
+	text-align: center;
+	background-color: #C44327;
+	padding: .8em;
+	margin: .6em;
+	font-weight: 500;
+	border-radius: $border-radius;
+}
