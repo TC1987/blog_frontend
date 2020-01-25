@@ -3,14 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import useField from '../../hooks/useField';
-
 import { login } from '../../services/login';
 import { user_login } from '../../reducers/userReducer';
 import { setToken } from '../../utils/token';
-
 import styles from './login.module.scss';
-
-import abstractImg from '../../images/multi-color.jpg';
 
 const EMAIL_LENGTH = 5;
 const PASSWORD_LENGTH = 5;

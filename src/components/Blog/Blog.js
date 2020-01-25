@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { blogs_service_getOne, blogs_service_update, blogs_service_delete } from '../../services/blogs';
 import { users_update } from '../../services/users';
-
 import { blogs_update, blogs_delete } from '../../reducers/blogReducer';
 import { user_update } from '../../reducers/userReducer';
 import { message_update } from '../../reducers/messageReducer';
-
 import CommentList from '../CommentList/CommentList';
-
 import styles from './blog.module.scss';
-
-import bolt from '../../images/bolt2.svg';
 
 const SingleBlog = props => {
 	const [blog, setBlog] = useState(null);
-	const [edit, setEdit] = useState(false);
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
-
 	const { user, user_update } = props;
 
 	useEffect(() => {
@@ -36,10 +26,6 @@ const SingleBlog = props => {
 				}
 			});
 	}, []);
-
-	const handleEdit = id => {
-		
-	};
 
 	const handleDelete = async id => {
 		try {
@@ -198,8 +184,6 @@ const SingleBlog = props => {
 			return;
 		}
 
-		const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
 		const date = new Date(timestamp);
 
 		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
@@ -229,7 +213,7 @@ const SingleBlog = props => {
 	return blog &&
 		<div className={ styles.container }>
 			<div className={ styles.content }>
-				{ blog.pictureUrl && <img src={ blog.pictureUrl } className={ styles.content__image }></img> }
+				{ blog.pictureUrl && <img src={ blog.pictureUrl } alt="uploaded-image" className={ styles.content__image }></img> }
 				<p className={ styles.content__date }>{ formatDate(blog.updatedAt) }</p>
 				<h1 className={ styles.content__title }>{ blog.title }</h1>
 				<div className={ styles.content__authorTime }>
@@ -243,19 +227,6 @@ const SingleBlog = props => {
 			</div>
 			{ user && user.id !== blog.author.id && displayNotAuthorActions() }
 			{ user && user.id === blog.author.id && displayAuthorActions() }
-
-			{/* { user && blog.author.id === user.id &&
-				<React.Fragment>
-					<button onClick={ () => {
-						setTitle(blog.title);
-						setContent(blog.content);
-						setEdit(edit => !edit)
-					}}>Edit</button>
-					<button onClick={ () => handleDelete(blog.id) }>Delete</button>
-				</React.Fragment>
-			} */}
-			{/* <div className={ styles.heart }></div> */}
-
 			<CommentList id={ blog.id } />
 		</div>
 };

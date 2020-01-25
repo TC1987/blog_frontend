@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 import styles from './navmenu.module.scss';
-
 import { user_logout } from '../../../reducers/userReducer';
 import { closeSidebar } from '../../../reducers/sidebarReducer';
 

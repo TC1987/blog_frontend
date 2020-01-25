@@ -37,5 +37,12 @@
 		height: $button-height;
 		background-color: $green-2;
 		color: $white-2;
+		cursor: pointer;
 	}
+}
+
+.validationError {
+	text-align: center;
+	background-color: #C44327;
+	font-weight: 700;
 }

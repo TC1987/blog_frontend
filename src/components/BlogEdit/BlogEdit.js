@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import validator from 'validator';
 
 import { blogs_service_getOne, blogs_service_update } from '../../services/blogs';
-
 import { message_update } from '../../reducers/messageReducer';
 import { blogs_update } from '../../reducers/blogReducer';
-
-import useField from '../../hooks/useField';
-
 import styles from './blogedit.module.scss';
 
 const TITLE_LENGTH = 3;

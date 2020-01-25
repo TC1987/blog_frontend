@@ -8,21 +8,9 @@ const Comments = ({ comments }) => {
 			return;
 		}
 
-		const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
 		const date = new Date(timestamp);
 
 		return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
-	}
-
-	const formatTime = timestamp => {
-		if (!timestamp) {
-			return;
-		}
-
-		const date = new Date(timestamp);
-
-		return `${date.getHours()}:${date.getMinutes()}`;
 	}
 
 	return (

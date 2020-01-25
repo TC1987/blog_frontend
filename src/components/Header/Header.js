@@ -4,12 +4,8 @@ import { Link } from 'react-router-dom';
 import '@animated-burgers/burger-squeeze/dist/styles.css';
 import Burger from '@animated-burgers/burger-squeeze';
 
-import NavMenu from './NavMenu/NavMenu';
-import LoggedInUser from './LoggedInUser/LoggedInUser';
 import Filter from './Filter/Filter';
-
 import { toggleSidebar } from '../../reducers/sidebarReducer';
-
 import styles from './header.module.scss';
 
 const Header = props => {

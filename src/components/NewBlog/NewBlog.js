@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { blogs_create } from '../../services/blogs';
-
 import { blogs_add } from '../../reducers/blogReducer';
 import { message_update } from '../../reducers/messageReducer';
-
 import useField from '../../hooks/useField';
-
 import styles from './newblog.module.scss';
 
 const TITLE_LENGTH = 3;
@@ -25,8 +22,6 @@ const NewBlog = props => {
 	}
 
 	const handleSubmit = async e => {
-		console.log('asd')
-
 		e.preventDefault();
 
 		let hasErrors = false;
@@ -53,23 +48,18 @@ const NewBlog = props => {
 		formData.set('image', image);
 		formData.set('author', props.user.id)
 
-		const titleValue = title.attributes.value;
-		const contentValue = content.attributes.value;
-
 		try {
 			const createdBlog = await blogs_create(formData);
 
-			
 			props.blogs_add(createdBlog);
-			props.message_update(`New Blog Created: ${titleValue}`);
+			props.message_update(`New Blog Created: ${ title.attributes.value }`);
 			setTimeout(() => props.message_update(null), 3000);
 			title.reset();
 			content.reset();
-			props.history.push('/');
+			props.history.push(`/`);
 		} catch (err) {
 			console.log(err);
 			props.message_update(err);
-			// props.message_update(`Error: ${err}`);
 			setTimeout(() => props.message_update(null), 3000);
 		}
 	};

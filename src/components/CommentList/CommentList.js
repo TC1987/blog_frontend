@@ -6,9 +6,12 @@ import useField from '../../hooks/useField';
 import { getComments, addComment } from '../../services/comments';
 import styles from './commentlist.module.scss';
 
+const COMMENT_LENGTH = 3;
+
 const CommentList = props => {
 	const [comments, setComments] = useState([]);
 	const comment = useField(null, 'Comment');
+	const [commentError, setCommentError] = useState('');
 
 	useEffect(() => {
 		getComments(props.id).then(comments => {
@@ -18,6 +21,18 @@ const CommentList = props => {
 
 	const handleSubmit = async e => {
 		e.preventDefault();
+
+		let hasErrors = false;
+
+		if (comment.attributes.value.length < COMMENT_LENGTH) {
+			setCommentError('Comment must be at least 3 characters.');
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			setTimeout(() => setCommentError(''), 4000);
+			return;
+		}
 
 		const newComment = {
 			comment: comment.attributes.value,
@@ -45,6 +60,7 @@ const CommentList = props => {
 			{ props.user &&
 				<form onSubmit={ handleSubmit } className={ styles.form }>
 					<textarea { ...comment.attributes} className={ styles.form__content } />
+					{ commentError && <p className={ styles.validationError }>{ commentError }</p>}
 					<button type="submit" className={ styles.form__button }>Post Comment</button>
 				</form>
 			}
