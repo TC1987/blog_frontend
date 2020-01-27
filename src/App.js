@@ -41,6 +41,7 @@ const App = props => {
 		<BrowserRouter>
 			<div className={ styles.container }>
 				<Header setBurgerRef={ setBurgerRef } />
+				{ props.message ? <p className={ styles.message }>{ props.message }</p> : null }
 				<div className={ `${ styles.main } ${ props.isOpen ? styles.fixedPosition : '' }` }>
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
@@ -65,7 +66,8 @@ const App = props => {
 const mapStateToProps = state => {
 	return {
 		user: state.user,
-		isOpen: state.isSidebarOpen
+		isOpen: state.isSidebarOpen,
+		message: state.message
 	};
 };
 

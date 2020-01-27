@@ -26,3 +26,13 @@
 		padding: .5em 0;
 	}
 }
+
+.message {
+	width: 100%;
+	text-align: center;
+	font-size: 1rem;
+	padding: 1em;
+	border-radius: $border-radius;
+	background-color: $grey-3;
+	font-weight: 700;
+}

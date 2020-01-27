@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import useField from '../../hooks/useField';
 import { login } from '../../services/login';
 import { user_login } from '../../reducers/userReducer';
+import { message_update } from '../../reducers/messageReducer';
 import { setToken } from '../../utils/token';
 import styles from './login.module.scss';
 
@@ -48,7 +49,8 @@ const Login = props => {
 			window.localStorage.setItem('token', token);
 			window.localStorage.setItem('user', JSON.stringify(user));
 		} catch (err) {
-			console.log(err);
+			props.message_update(err.error);
+			setTimeout(() => props.message_update(''), 3000);
 			email.reset();
 			password.reset();
 		}
@@ -71,7 +73,8 @@ const Login = props => {
 };
 
 const mapDispatchToProps = {
-	user_login
+	user_login,
+	message_update
 };
 
 export default connect(null, mapDispatchToProps)(Login);
