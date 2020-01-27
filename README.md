@@ -1,1 +1,1 @@
-## TIL - A blog for developers by developers.
+## TIL - A Blog For Developers By Developers
